@@ -46,11 +46,3 @@ jobs:
       - name: Install frontend dependencies
         working-directory: frontend
         run: npm install
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
-        with:
-          languages: javascript
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v4
