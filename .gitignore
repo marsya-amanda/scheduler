@@ -1,0 +1,5 @@
+*/.expo/
+frontend/ios
+frontend/expo
+
+.env
