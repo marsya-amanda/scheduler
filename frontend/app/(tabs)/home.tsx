@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import ViewOptions from '../components/view-options';
 import DisplayEvent from '../components/home/display-event';
 import React, { useState} from 'react';
@@ -16,7 +16,14 @@ export default function HomeScreen() {
         // pass view to DE so DE knows which presentation to use
         <View style={ styles.parent }>
             <ViewOptions onViewChange={handleViewChange} />
-            <DisplayEvent view={view}/> 
+            <ScrollView style={styles.eventcontainer}>
+                <DisplayEvent view={view}/> 
+                <DisplayEvent view={view} />
+                <DisplayEvent view={view}/> 
+                <DisplayEvent view={view} />
+                <DisplayEvent view={view}/> 
+                <DisplayEvent view={view} />
+            </ScrollView>
             <CreateEventButton />
         </View>
     );
@@ -29,7 +36,13 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        zIndex: 2
+    },
+    eventcontainer: {
+        height: '100%',
+        width: '100%',
+        display: 'flex',
     },
     text: {
         fontSize: 20

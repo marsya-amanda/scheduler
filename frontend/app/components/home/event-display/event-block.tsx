@@ -5,9 +5,9 @@ export default function EventBlock() {
     return (
         <View style = {styles.container}>
             <View style={styles.eventTitle}>
-                <Text style={styles.titleText}>emma bday</Text>
-                <Pressable>
-                    <Ionicons name='ellipsis-vertical' size={14}></Ionicons>
+                <Text style={styles.titleText}>emma bday 123 bonanza</Text>
+                <Pressable style={{width: '10%', bottom: '-5%', left: '4%'}}>
+                    <Ionicons name='link' size={16} />
                 </Pressable>
             </View>
 
@@ -18,10 +18,10 @@ export default function EventBlock() {
 
             <View style={styles.editContainer}>
                 <Pressable style={styles.editButton}>
-                    <Text>share link</Text>
+                    <Ionicons name='pencil' size={16} />
                 </Pressable>
                 <Pressable style={styles.editButton}>
-                    <Text>edit my availability</Text>
+                    <Ionicons name='trash' size={16} />
                 </Pressable>
             </View>
         </View>
@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         display: 'flex',
         flexDirection: 'column',
-        padding: '2%'
+        padding: '2%',
+        marginBottom: '5%'
     },
     eventTitle: {
         display: 'flex',
@@ -43,7 +44,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     titleText: {
-        fontSize: 24
+        fontSize: 24,
+        width: '90%'
     },
     eventDetails: {
         display: 'flex',
@@ -56,15 +58,16 @@ const styles = StyleSheet.create({
     editContainer: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'flex-end',
         
     },
     editButton: {
         alignSelf: 'flex-end',
         fontSize: 12,
         borderColor: 'black',
-        borderWidth: 1,
+        borderWidth: 0,
         marginTop: '3%',
+        marginRight: '2%',
         padding: '1%'
     }
 })
