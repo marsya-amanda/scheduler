@@ -32,12 +32,14 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     parent: {
         flex: 1,
-        padding: '5%',
+        paddingLeft: '5%',
+        paddingRight: '5%',
+        paddingTop: '5%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         backgroundColor: 'white',
-        zIndex: 2
+        zIndex: 2,
     },
     eventcontainer: {
         height: '100%',

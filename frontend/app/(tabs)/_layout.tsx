@@ -19,7 +19,7 @@ export default function TabLayout() {
                 }}
             >
             
-                <Tabs.Screen name="home" options={{ title: 'home', headerShown: false,
+                <Tabs.Screen name="index" options={{ title: 'home', headerShown: false,
                     tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />
                 }}/>
                 <Tabs.Screen name="friends" options={{ title: 'friends', headerShown: false,
