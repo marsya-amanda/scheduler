@@ -55,4 +55,28 @@ export const eventBlockStyles = StyleSheet.create({
         borderColor: 'black',
         marginLeft: '1%'
     }
-})
+});
+
+export const cardStyles = StyleSheet.create({
+    cardContainer: {
+        width: Dimensions.get('window').width * 0.9,
+        borderRadius: 20,
+        paddingLeft: '4%',
+        paddingRight: '2%',
+        paddingTop: '2%',
+        paddingBottom: '2%',
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    titleContainer: {
+        display: 'flex',
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start'
+    },
+    cardTitle: {
+        fontSize: 24,
+        color: 'black'
+    }
+});
