@@ -1,8 +1,13 @@
-import { Text, View, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, FlatList } from 'react-native';
 import ViewOptions from '../components/view-options';
-import DisplayEvent from '../components/home/display-event';
+import Card from '../components/home/event-display/card';
 import React, { useState} from 'react';
 import CreateEventButton from '../components/home/create-event-button';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { DUMMY_EVENTS } from '../../constants/dummyEvents';
+
+const pendingEvents = DUMMY_EVENTS.filter(event => !event.status);
+const finalisedEvents = DUMMY_EVENTS.filter(event => event.status);
 
 export default function HomeScreen() {
     const [view, setView] = useState('list');
@@ -14,27 +19,29 @@ export default function HomeScreen() {
     return (
         // pass callback function so ViewOptions can update 'view'
         // pass view to DE so DE knows which presentation to use
-        <View style={ styles.parent }>
+        
+        <SafeAreaView style={ styles.parent }>
             <ViewOptions onViewChange={handleViewChange} />
-            <ScrollView style={styles.eventcontainer}>
-                <DisplayEvent view={view}/> 
-                <DisplayEvent view={view} />
-                <DisplayEvent view={view}/> 
-                <DisplayEvent view={view} />
-                <DisplayEvent view={view}/> 
-                <DisplayEvent view={view} />
-            </ScrollView>
+            
+            { view === 'list' ? (
+                <View>
+                    <Card cardTitle={ 'Pending' } events={ pendingEvents } />
+                    <Card cardTitle={ 'Finalised' } events={ finalisedEvents } />
+                </View> 
+            ) :
+            (
+                <Text>Cal view</Text>
+            )};
+            
+
             <CreateEventButton />
-        </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     parent: {
         flex: 1,
-        paddingLeft: '5%',
-        paddingRight: '5%',
-        paddingTop: '5%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -42,9 +49,9 @@ const styles = StyleSheet.create({
         zIndex: 2,
     },
     eventcontainer: {
-        height: '100%',
-        width: '100%',
+        flex: 1,
         display: 'flex',
+        width: '100%'
     },
     text: {
         fontSize: 20
