@@ -22,10 +22,10 @@ const ViewOptions: React.FC<ViewOptionsProps> = ({ onViewChange }) => {
 
     return (
         <View style={ styles.container}>
-            <Pressable style= {[ styles.option, view === 'list' && styles.optionActive ]} onPress = {onListPress}>
+            <Pressable style= {[ styles.option, view === 'list' && styles.optionActive, styles.optionList ]} onPress = {onListPress}>
                 <Text>List</Text>
             </Pressable>
-            <Pressable style = {[styles.option, view === 'calendar' && styles.optionActive ]} onPress = { onCalendarPress }>
+            <Pressable style = {[styles.option, view === 'calendar' && styles.optionActive, styles.optionCalendar ]} onPress = { onCalendarPress }>
                 <Text>Calendar</Text>
             </Pressable>
         </View>
@@ -40,8 +40,9 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        width: '50%',
-        marginBottom: '10%'
+        width: 200,
+        marginBottom: 10,
+        height: 30
     },
     option: {
         width: '50%',
@@ -49,10 +50,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 1,
         borderColor: 'black',
-        padding: '1%'
+        padding: 2
     },
     optionActive: {
         backgroundColor: '#dbdbdb',
+    },
+    optionList: {
+        borderTopLeftRadius: 10,
+        borderBottomLeftRadius: 10
+    },
+    optionCalendar: {
+        borderTopRightRadius: 10,
+        borderBottomRightRadius: 10
     },
     text: {
         fontSize: 12,
