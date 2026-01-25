@@ -14,7 +14,7 @@ export default function TabLayout() {
                     headerTitleAlign: 'center',
                     tabBarStyle: {
                         borderTopWidth: 1,
-                        borderTopColor: 'black'
+                        borderTopColor: 'black',
                     }
                 }}
             >
@@ -37,6 +37,8 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
     main: {
         backgroundColor: 'white',
-        height: '106%'
+        flex: 1,
+        padding: 0,
+        margin: 0
     }
 })
