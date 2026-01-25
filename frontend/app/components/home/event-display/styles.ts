@@ -80,11 +80,15 @@ export const cardStyles = StyleSheet.create({
         display: 'flex',
         width: '100%',
         flexDirection: 'row',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start'
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        backgroundColor: 'white',
+        padding: 10,
+        borderBottomWidth: 1
     },
     cardTitle: {
         fontSize: 24,
-        color: 'black'
+        color: 'black',
+        paddingRight: 10
     }
 });
