@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         padding: 2
     },
     optionActive: {
-        backgroundColor: '#dbdbdb',
+        backgroundColor: 'lightgrey',
     },
     optionList: {
         borderTopLeftRadius: 10,
