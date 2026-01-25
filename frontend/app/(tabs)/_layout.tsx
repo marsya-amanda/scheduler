@@ -3,6 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { View, StyleSheet } from 'react-native';
 
 export default function TabLayout() {
+
     return (
         <View style={styles.main}>
             <Tabs
@@ -15,6 +16,8 @@ export default function TabLayout() {
                     tabBarStyle: {
                         borderTopWidth: 1,
                         borderTopColor: 'black',
+                        height: 90,
+                        paddingTop: '2%'
                     }
                 }}
             >

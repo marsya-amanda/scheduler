@@ -7,15 +7,17 @@ export const eventBlockStyles = StyleSheet.create({
         borderWidth: 1,
         display: 'flex',
         flexDirection: 'column',
-        padding: '2%',
-        marginBottom: '5%',
+        padding: 10,
+        marginBottom: 10,
+        marginTop: 10,
         borderRadius: 20
     },
     eventTitle: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginBottom: 5
     },
     titleText: {
         fontSize: 24,
@@ -23,20 +25,26 @@ export const eventBlockStyles = StyleSheet.create({
     },
     eventDetails: {
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        marginBottom: 3
     },
     detailsText: {
         fontSize: 16,
-        lineHeight: 20
+        lineHeight: 20,
+        marginBottom: 3
     },
     bottomContainer: {
         width: '100%',
         display: 'flex',
         justifyContent: 'space-between',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     tagContainer: {
-        width: '20%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 5,
         borderRadius: 20,
         borderWidth: 1, 
         borderColor: 'black'
@@ -53,7 +61,7 @@ export const eventBlockStyles = StyleSheet.create({
     actionsButton: {
         fontSize: 12,
         borderColor: 'black',
-        marginLeft: '1%'
+        marginLeft: 4
     }
 });
 
@@ -72,11 +80,15 @@ export const cardStyles = StyleSheet.create({
         display: 'flex',
         width: '100%',
         flexDirection: 'row',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start'
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        backgroundColor: 'white',
+        padding: 10,
+        borderBottomWidth: 1
     },
     cardTitle: {
         fontSize: 24,
-        color: 'black'
+        color: 'black',
+        paddingRight: 10
     }
 });

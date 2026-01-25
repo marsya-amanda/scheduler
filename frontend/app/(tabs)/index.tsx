@@ -1,10 +1,13 @@
-import { Text, View, StyleSheet, FlatList } from 'react-native';
+import { Text, View, StyleSheet, SectionList, Dimensions } from 'react-native';
 import ViewOptions from '../components/view-options';
-import Card from '../components/home/event-display/card';
+import CardHeader from '../components/home/event-display/card-header';
+import FinalisedEventBlock from '../components/home/event-display/finalised-event-block';
+import PendingEventBlock from '../components/home/event-display/pending-event-block';
 import React, { useState} from 'react';
 import CreateEventButton from '../components/home/create-event-button';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DUMMY_EVENTS } from '../../constants/dummyEvents';
+import { cardStyles } from '../components/home/event-display/styles';
 
 const pendingEvents = DUMMY_EVENTS.filter(event => !event.status);
 const finalisedEvents = DUMMY_EVENTS.filter(event => event.status);
@@ -16,6 +19,22 @@ export default function HomeScreen() {
         setView(newView);
     };
 
+    const [expanded, setExpanded] = useState({
+        Pending: false,
+        Finalised: false,
+    });
+
+    const sections = [
+        {
+        title: 'Pending',
+        data: expanded.Pending ? pendingEvents : [],
+        },
+        {
+        title: 'Finalised',
+        data: expanded.Finalised ? finalisedEvents : [],
+        },
+    ];
+
     return (
         // pass callback function so ViewOptions can update 'view'
         // pass view to DE so DE knows which presentation to use
@@ -24,9 +43,35 @@ export default function HomeScreen() {
             <ViewOptions onViewChange={handleViewChange} />
             
             { view === 'list' ? (
-                <View>
-                    <Card cardTitle={ 'Pending' } events={ pendingEvents } />
-                    <Card cardTitle={ 'Finalised' } events={ finalisedEvents } />
+                <View style={cardStyles.cardContainer}>
+                    {/* <Card cardTitle={ 'Pending' } events={ pendingEvents } />
+                    <Card cardTitle={ 'Finalised' } events={ finalisedEvents } /> */}
+
+                    <SectionList
+                        sections={sections}
+                        keyExtractor={(item) => item.id}
+                        stickySectionHeadersEnabled
+                        renderSectionHeader={({ section }) => (
+                        <CardHeader
+                            title={section.title}
+                            expanded={expanded[section.title as keyof typeof expanded]}
+                            onPress={() =>
+                            setExpanded((prev) => ({
+                                ...prev, 
+                                [section.title]: !prev[section.title as keyof typeof expanded],
+                            }))
+                            }
+                        />
+                        )}
+                        renderItem={({ item, section }) =>
+                        section.title === 'Pending' ? (
+                            <PendingEventBlock event={item} />
+                        ) : (
+                            <FinalisedEventBlock event={item} />
+                        )
+                        }
+                        ListEmptyComponent={<Text>No events here!</Text>}
+                    />
                 </View> 
             ) :
             (
@@ -47,13 +92,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         zIndex: 2,
-    },
-    eventcontainer: {
-        flex: 1,
-        display: 'flex',
-        width: '100%'
-    },
-    text: {
-        fontSize: 20
     }
 })

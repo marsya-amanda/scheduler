@@ -4,8 +4,8 @@ import { Pressable, StyleSheet, Text} from 'react-native';
 export default function CreateEventButton() {
     return (
         <Pressable style={styles.container}>
-            <Ionicons name="add" size={30} color={'white'}/>
-            <Text style={{fontSize: 28, color: 'white'}}>event</Text>
+            <Ionicons name="add" size={30} color={'black'}/>
+            <Text style={styles.buttonText}>event</Text>
         </Pressable>
     );
 }
@@ -15,21 +15,20 @@ const styles = StyleSheet.create({
         borderRadius: 40,
         borderWidth: 1,
         borderColor: 'black',
-        padding: '2%',
-        paddingRight: '3%',
         position: 'absolute',
-        bottom: '4%',
-        left: '10%',
+        bottom: 20,
+        left: 20,
         zIndex: 100,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-around',
-        width: '40%',
-        backgroundColor: 'black',
+        justifyContent: 'center',
+        width: 140,
+        backgroundColor: 'lightgrey',
     },
     buttonText: {
-        fontSize: 24,
-        padding: '1%'
+        fontSize: 28,
+        padding: 5,
+        color: 'black'
     }
 })
