@@ -14,7 +14,7 @@ export default function CardHeader({ title, expanded, onPress }: cardHeaderProps
       <View style={cardStyles.titleContainer}>
         <Text style={cardStyles.cardTitle}>{title}</Text>
         <Ionicons
-          name={expanded ? 'arrow-down' : 'arrow-up'}
+          name={expanded ? 'arrow-up' : 'arrow-down'}
           size={20}
         />
       </View>
