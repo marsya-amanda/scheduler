@@ -1,9 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text} from 'react-native';
+import { useRouter } from "expo-router";
 
 export default function CreateEventButton() {
+    const router = useRouter();
     return (
-        <Pressable style={styles.container}>
+        <Pressable style={styles.container} onPress={() => router.push("/create-event")}>
             <Ionicons name="add" size={30} color={'black'}/>
             <Text style={styles.buttonText}>event</Text>
         </Pressable>
