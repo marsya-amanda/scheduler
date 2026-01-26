@@ -76,7 +76,7 @@ export default function HomeScreen() {
             ) :
             (
                 <Text>Cal view</Text>
-            )};
+            )}
             
 
             <CreateEventButton />
