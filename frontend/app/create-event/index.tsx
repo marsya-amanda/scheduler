@@ -1,10 +1,12 @@
-import { Pressable, View, Text, StyleSheet } from "react-native";
+import { Pressable, View, Text, StyleSheet, TextInput } from "react-native";
+import React, { useState } from 'react';
 import { useRouter } from "expo-router";
 import CancelCreateBar from "../components/create-event/cancel-create-bar"
 // import {ViewOptions} from "../components/view-options";
 
 export default function CreateEventScreen() {
     const router = useRouter();
+    const [text, setText] = useState('');
 
     return (
         <View style={styles.container}>
@@ -13,7 +15,11 @@ export default function CreateEventScreen() {
 
             <View style={styles.section}>
                 <Text style={styles.body}>Event Title*</Text>
-                {/* Todo: add text input */}
+                <TextInput
+                    style={styles.textBox}
+                    onChangeText={setText}
+                    value={text}
+                ></TextInput>
             </View>
 
             <View style={styles.section}>
@@ -57,7 +63,8 @@ const styles = StyleSheet.create({
     },
     section: {
         width: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 10
     },
     title: {
         fontSize: 40,
@@ -69,6 +76,14 @@ const styles = StyleSheet.create({
     tickBoxText: {
         fontSize: 10,
         color: 'darkgrey'
+    },
+    textBox: {
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: 'black',
+        paddingLeft: 5,
+        paddingRight: 5,
+        width: 150
     }
 })
 
