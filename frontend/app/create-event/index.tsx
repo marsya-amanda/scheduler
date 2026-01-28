@@ -1,5 +1,6 @@
-import { Button, View, Text, StyleSheet } from "react-native";
+import { Pressable, View, Text, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
+import CancelCreateBar from "../components/create-event/cancel-create-bar"
 // import {ViewOptions} from "../components/view-options";
 
 export default function CreateEventScreen() {
@@ -7,15 +8,15 @@ export default function CreateEventScreen() {
 
     return (
         <View style={styles.container}>
-            <Button title="x" onPress={() => router.push("../(tabs)")}/>
+
             <Text style={styles.title}>Create Event</Text>
 
-            <View>
+            <View style={styles.section}>
                 <Text style={styles.body}>Event Title*</Text>
                 {/* Todo: add text input */}
             </View>
 
-            <View>
+            <View style={styles.section}>
                 <Text style={styles.body}>Start Date*</Text>
                 {/* Todo: add date input */}
                 <Text style={styles.body}>End Date</Text>
@@ -24,26 +25,27 @@ export default function CreateEventScreen() {
                 <Text style={styles.tickBoxText}>Single day availability</Text>
             </View>
 
-            <View>
+            <View style={styles.section}>
                 <Text style={styles.body}>Available Time Range*</Text>
                 {/* Todo: add start and end time inputs */}
                 {/* Todo: add tickbox */}
                 <Text style={styles.tickBoxText}>Block off time admin is unavailable</Text>
             </View>
 
-            <View>
+            <View style={styles.section}>
                 <Text style={styles.body}>Event Duration</Text>
                 {/* Todo: add duration input */}
             </View>
 
-            <View>
+            <View style={styles.section}>
                 <Text style={styles.body}>Response Deadline</Text>
                 {/* Todo: add input box */}
                 {/* Todo: add tickbox */}
                 <Text style={styles.tickBoxText}>Remind participants 1 day before deadline</Text>
             </View>
 
-            {/* Todo: add cancel and create event buttons */}
+            <CancelCreateBar></CancelCreateBar>
+
 
         </View>
     );
@@ -51,7 +53,11 @@ export default function CreateEventScreen() {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: `center`
+        alignItems: 'center'
+    },
+    section: {
+        width: '100%',
+        alignItems: 'center'
     },
     title: {
         fontSize: 40,
