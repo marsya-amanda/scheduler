@@ -6,5 +6,5 @@ from .models import Event
 from .serialisers import EventSerialiser
 
 class EventViewSet(viewsets.ModelViewSet):
-    queryset = Event.objects.all().order_by() # order by pinned first, then dateCreated
+    queryset = Event.objects.all().order_by('-pinned', '-dateCreated')
     serializer_class = EventSerialiser

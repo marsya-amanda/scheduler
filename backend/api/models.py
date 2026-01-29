@@ -1,9 +1,8 @@
 from django.db import models
-
-# Create your models here.
+import uuid
 
 class Event(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False)
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     title = models.CharField(max_length=250)
     pinned = models.BooleanField(default=False)
     dateCreated = models.DateTimeField(auto_now_add=True)
@@ -11,7 +10,7 @@ class Event(models.Model):
     endDate = models.DateField()
     status = models.BooleanField(default=False)
     bestAvailability = models.DateTimeField(null=True, blank=True)
-    participants = models.ManyToManyField('User')
+    participants = models.ManyToManyField('User', blank=True, related_name='events')
     numParticipants = models.IntegerField(default=0)
     numResponded = models.IntegerField(default=0)
     numAvailable = models.IntegerField(default=0)
