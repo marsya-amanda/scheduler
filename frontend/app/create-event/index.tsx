@@ -8,7 +8,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function CreateEventScreen() {
     const router = useRouter();
-    const [text, setText] = useState('');
+    const [eventTitle, setTitle] = useState('');
 
     // Checkboxes
     const [isSingleDayAvail, setSingleDayAvail] = useState(false);
@@ -31,8 +31,8 @@ export default function CreateEventScreen() {
                 <Text style={styles.body}>Event Title*</Text>
                 <TextInput
                     style={styles.textBox}
-                    onChangeText={setText}
-                    value={text}
+                    onChangeText={setTitle}
+                    value={eventTitle}
                 ></TextInput>
             </View>
 
@@ -62,12 +62,13 @@ export default function CreateEventScreen() {
 
             <View style={styles.section}>
                 <Text style={styles.body}>Available Time Range*</Text>
-                <View style={{flexDirection: 'row'}}>
+                <View style={styles.availRangeContainer}>
                 <DateTimePicker
                     value={startRange}
                     mode="time"
                     onChange={(_, t) => t && setStartRange(t)}
                 ></DateTimePicker>
+                <Text style={{padding: 5}}>~</Text>
                 <DateTimePicker
                     value={endRange}
                     mode="time"
@@ -87,14 +88,14 @@ export default function CreateEventScreen() {
 
             <View style={styles.section}>
                 <Text style={styles.body}>Event Duration</Text>
-                {/* Todo: add duration input */}
+                {/* Todo: add event duration picker */}
             </View>
 
             <View style={styles.section}>
                 <Text style={styles.body}>Response Deadline</Text>
                 <DateTimePicker
                     value={responseDeadline}
-                    mode="date"
+                    mode="datetime"
                     onChange={(_, d) => d && setResponseDeadline(d)}
                 ></DateTimePicker>
                 <View style={styles.tickContainer}>
@@ -108,7 +109,11 @@ export default function CreateEventScreen() {
                 </View>
             </View>
 
-            <CancelCreateBar></CancelCreateBar>
+            <CancelCreateBar
+                eventData={{
+                    title: eventTitle
+                }}
+            />
 
 
         </View>
@@ -155,7 +160,12 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         paddingLeft: 5,
         paddingRight: 5,
-        width: 220
+        width: 220,
+        height: 25
+    },
+    availRangeContainer: {
+        flexDirection: 'row',
+        alignItems: 'center'
     }
 })
 
