@@ -1,14 +1,16 @@
 export type Event = {
     id: string;
     title: string;
-    dateCreated: string;
-    status: boolean;
     pinned: boolean;
+    dateCreated: string;
+    startDate: string;
+    endDate: string;
+    status: boolean;
     bestAvailability: string | null;
+    participants: object[];
     numParticipants: number;
-    numAvailable: number;
     numResponded: number;
+    numAvailable: number;
     tag: string | null;
-    link: string;
-    participants: string[];
+    link: string | null;
 }
