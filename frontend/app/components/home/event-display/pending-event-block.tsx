@@ -11,7 +11,7 @@ type PendingEventBlockProps = {
 
 export default function PendingEventBlock( { event, onPress } : PendingEventBlockProps ) {
     const onDelete = async (id: string) => {
-        deleteEvent(id);
+        await deleteEvent(id);
         onPress();
     }
 
@@ -70,7 +70,7 @@ export default function PendingEventBlock( { event, onPress } : PendingEventBloc
                                 />
                             </Pressable>
     
-                            <Pressable style={eventBlockStyles.actionsButton} onPress={() => onDelete}>
+                            <Pressable style={eventBlockStyles.actionsButton} onPress={() => onDelete(event.id)}>
                                 <Ionicons 
                                     name='trash-bin-outline' 
                                     size={16} 

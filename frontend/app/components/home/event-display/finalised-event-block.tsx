@@ -12,7 +12,7 @@ type FinalisedEventBlockProps = {
 
 export default function FinalisedEventBlock( { event, onPress } : FinalisedEventBlockProps ) {
     const onDelete = async (id: string) => {
-        deleteEvent(id);
+        await deleteEvent(id);
         onPress();
     }
 
