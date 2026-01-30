@@ -29,7 +29,7 @@ export async function readEvent(id: number | string) {
 }
 
 export async function updateEvent(id: number | string, event: Partial<Event>) {
-  const res = await fetch(`${API_URL}${id}/`, {
+  const res = await fetch(`${API_URL}/${id}/`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(event),
