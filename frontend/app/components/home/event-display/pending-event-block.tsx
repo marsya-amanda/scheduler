@@ -2,20 +2,27 @@ import { eventBlockStyles } from './styles';
 import type { Event } from '../../../types/event';
 import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { deleteEvent } from '../../../../utils/event-api';
 
 type PendingEventBlockProps = {
     event: Event;
+    onPress: () => void;
 }
 
-export default function PendingEventBlock( { event } : PendingEventBlockProps ) {
+export default function PendingEventBlock( { event, onPress } : PendingEventBlockProps ) {
+    const onDelete = async (id: string) => {
+        deleteEvent(id);
+        onPress();
+    }
+
     return (
             <View>
                 <Pressable style = {eventBlockStyles.container}>
                     <View style={eventBlockStyles.eventTitle}>
                         <Text style={eventBlockStyles.titleText}>{ event.title }</Text>
-                        <Pressable style={{width: '10%', bottom: '-5%', left: '4%'}}>
+                        <Pressable style={{}}>
                             <Ionicons 
-                                name='pin-outline' 
+                                name={event.pinned ? 'pin' : 'pin-outline' }
                                 size={16} 
                                 accessible={true} 
                                 accessibilityLabel="Pin event"
@@ -63,7 +70,7 @@ export default function PendingEventBlock( { event } : PendingEventBlockProps ) 
                                 />
                             </Pressable>
     
-                            <Pressable style={eventBlockStyles.actionsButton}>
+                            <Pressable style={eventBlockStyles.actionsButton} onPress={() => onDelete}>
                                 <Ionicons 
                                     name='trash-bin-outline' 
                                     size={16} 

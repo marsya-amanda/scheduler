@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { DUMMY_EVENTS } from '../../constants/dummyEvents';
 import { cardStyles } from '../components/home/event-display/styles';
 import { fetchEvents } from '../../utils/event-api';
+import { useEvents } from '../../utils/use-events';
 import type { Event } from '../types/event';
 
 // const pendingEvents = DUMMY_EVENTS.filter(event => !event.status);
@@ -17,28 +18,11 @@ import type { Event } from '../types/event';
 export default function HomeScreen() {
     const [view, setView] = useState('list');
 
-    const [events, setEvents] = useState([] as Event[]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const { events, refresh, loading, error } = useEvents();
 
-    const loadData = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-
-            const data = await fetchEvents();
-            setEvents(data);
-        } catch (err) {
-            setError((err as Error).message ?? 'Network error');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // call on mount
     useEffect(() => {
-        loadData();
-    }, []);
+    refresh();
+    }, [refresh]); // return used function
 
     const pendingEvents = events.filter(event => !event.status);
     const finalisedEvents = events.filter(event => event.status)
@@ -71,7 +55,7 @@ export default function HomeScreen() {
             <View>
                 <Text>failed. Try again</Text>
                 <Text>{error}</Text>
-                <Button title='retry' onPress={loadData} />
+                <Button title='retry' onPress={useEvents} />
             </View>
         )
     }
@@ -106,9 +90,9 @@ export default function HomeScreen() {
                         )}
                         renderItem={({ item, section }) =>
                         section.title === 'Pending' ? (
-                            <PendingEventBlock event={item} />
+                            <PendingEventBlock event={item} onPress={refresh}/>
                         ) : (
-                            <FinalisedEventBlock event={item} />
+                            <FinalisedEventBlock event={item} onPress={refresh}/>
                         )
                         }
                         ListEmptyComponent={<Text>No events here!</Text>}
