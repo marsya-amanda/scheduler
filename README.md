@@ -17,8 +17,7 @@ https://github.com/user-attachments/assets/24d92abb-edc3-45b6-bd9b-0849ee9f4749
 1. Download the Expo Go app
 2. On your terminal:
 ```
+python3 backend/manage.py runserver
 npx expo start
 ```
 3. Scan the QR code provided.
-
-
