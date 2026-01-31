@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { eventBlockStyles } from './styles';
 import type { Event } from '../../../types/event';
 import { deleteEvent } from '../../../../utils/event-api'
+import { useRouter } from 'expo-router';
 
 type FinalisedEventBlockProps = {
     event: Event,
@@ -11,6 +12,8 @@ type FinalisedEventBlockProps = {
 
 
 export default function FinalisedEventBlock( { event, onPress } : FinalisedEventBlockProps ) {
+    const router = useRouter();
+
     const onDelete = async (id: string) => {
         await deleteEvent(id);
         onPress();
@@ -61,12 +64,12 @@ export default function FinalisedEventBlock( { event, onPress } : FinalisedEvent
                             />
                         </Pressable>
 
-                        <Pressable style={eventBlockStyles.actionsButton}>
+                        <Pressable style={eventBlockStyles.actionsButton} onPress={() => router.push('/edit-availability')}>
                             <Ionicons 
                                 name='pencil-outline' 
                                 size={16} 
                                 accessible={true} 
-                                accessibilityLabel="Edit event details"
+                                accessibilityLabel="Edit event availability"
                                 accessibilityRole="button"
                             />
                         </Pressable>

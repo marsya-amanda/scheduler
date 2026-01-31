@@ -3,6 +3,7 @@ import type { Event } from '../../../types/event';
 import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { deleteEvent } from '../../../../utils/event-api';
+import { useRouter } from 'expo-router';
 
 type PendingEventBlockProps = {
     event: Event;
@@ -10,6 +11,8 @@ type PendingEventBlockProps = {
 }
 
 export default function PendingEventBlock( { event, onPress } : PendingEventBlockProps ) {
+    const router = useRouter();
+
     const onDelete = async (id: string) => {
         await deleteEvent(id);
         onPress();
@@ -60,12 +63,12 @@ export default function PendingEventBlock( { event, onPress } : PendingEventBloc
                                 />
                             </Pressable>
     
-                            <Pressable style={eventBlockStyles.actionsButton}>
+                            <Pressable style={eventBlockStyles.actionsButton} onPress={() => router.push("/edit-availability")}>
                                 <Ionicons 
                                     name='pencil-outline' 
                                     size={16} 
                                     accessible={true} 
-                                    accessibilityLabel="Edit event details"
+                                    accessibilityLabel="Edit event availability"
                                     accessibilityRole="button"
                                 />
                             </Pressable>

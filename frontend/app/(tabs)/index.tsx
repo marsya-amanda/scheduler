@@ -47,9 +47,6 @@ export default function HomeScreen() {
         },
     ];
 
-    if (loading) {
-        return <Text>Loading events...</Text>;
-    }
     if (error) {
         return (
             <View>
