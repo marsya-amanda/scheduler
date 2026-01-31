@@ -3,11 +3,19 @@ import  { editAvailabilityStyles } from '../components/edit-availability/styles'
 import { useRouter } from 'expo-router';
 import ViewOptions from '../components/view-options';
 import { useState } from 'react';
+import DateBlock from '../components/edit-availability/date-block';
 
+const DUMMY = {
+    id: '53234329',
+    title: 'mt wilson',
+    startDate: '31-01-2026',
+    endDate: '14-02-2026',
+}
 
 export default function EditAvailabilityScreen( ) {
     const router = useRouter();
     const [view, setView] = useState('list');
+    const DUMMY_DATE = '5 jan'
 
     const handleViewChange = (newView: string) => {
         setView(newView);
@@ -16,12 +24,14 @@ export default function EditAvailabilityScreen( ) {
     return (
         <View style={editAvailabilityStyles.parent}>
             <ViewOptions onViewChange={handleViewChange} />
-            <View>
-                <Text>hello</Text>
-            </View>
+            <Text style={editAvailabilityStyles.title}>
+                Your Availability
+            </Text>
             
+            <DateBlock date={DUMMY_DATE} />
+
             <View>
-                <Button title='cancel' onPress={() => router.push('/(tabs)')} />
+                <Button title='Home' onPress={() => router.push('/(tabs)')} />
             </View>
             
         </View>
