@@ -3,14 +3,24 @@ import React, { useState } from 'react';
 import { useRouter } from "expo-router";
 import CancelCreateBar from "../components/create-event/cancel-create-bar"
 import Checkbox from 'expo-checkbox'
+import DateTimePicker from '@react-native-community/datetimepicker';
 // import {ViewOptions} from "../components/view-options";
 
 export default function CreateEventScreen() {
     const router = useRouter();
-    const [text, setText] = useState('');
+    const [eventTitle, setTitle] = useState('');
+
+    // Checkboxes
     const [isSingleDayAvail, setSingleDayAvail] = useState(false);
     const [isAdminTimeBlock, setAdminTimeBlock] = useState(false);
     const [isSendReminder, setSendReminder] = useState(false);
+
+    // Date + time pickers
+    const [responseDeadline, setResponseDeadline] = useState(new Date());
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    const [startRange, setStartRange] = useState(new Date());
+    const [endRange, setEndRange] = useState(new Date());
 
     return (
         <View style={styles.container}>
@@ -21,16 +31,24 @@ export default function CreateEventScreen() {
                 <Text style={styles.body}>Event Title*</Text>
                 <TextInput
                     style={styles.textBox}
-                    onChangeText={setText}
-                    value={text}
+                    onChangeText={setTitle}
+                    value={eventTitle}
                 ></TextInput>
             </View>
 
             <View style={styles.section}>
                 <Text style={styles.body}>Start Date*</Text>
-                {/* Todo: add date input */}
+                <DateTimePicker
+                    value={startDate}
+                    mode="date"
+                    onChange={(_, d) => d && setStartDate(d)}
+                ></DateTimePicker>
                 <Text style={styles.body}>End Date</Text>
-                {/* Todo: add date input */}
+                <DateTimePicker
+                    value={endDate}
+                    mode="date"
+                    onChange={(_, d) => d && setEndDate(d)}
+                ></DateTimePicker>
                 <View style={styles.tickContainer}>
                     <Checkbox
                         style={styles.checkbox}
@@ -44,7 +62,19 @@ export default function CreateEventScreen() {
 
             <View style={styles.section}>
                 <Text style={styles.body}>Available Time Range*</Text>
-                {/* Todo: add start and end time inputs */}
+                <View style={styles.availRangeContainer}>
+                <DateTimePicker
+                    value={startRange}
+                    mode="time"
+                    onChange={(_, t) => t && setStartRange(t)}
+                ></DateTimePicker>
+                <Text style={{padding: 5}}>~</Text>
+                <DateTimePicker
+                    value={endRange}
+                    mode="time"
+                    onChange={(_, t) => t && setEndRange(t)}
+                ></DateTimePicker>
+                </View>
                 <View style={styles.tickContainer}>
                     <Checkbox
                         style={styles.checkbox}
@@ -58,24 +88,32 @@ export default function CreateEventScreen() {
 
             <View style={styles.section}>
                 <Text style={styles.body}>Event Duration</Text>
-                {/* Todo: add duration input */}
+                {/* Todo: add event duration picker */}
             </View>
 
             <View style={styles.section}>
                 <Text style={styles.body}>Response Deadline</Text>
-                {/* Todo: add input box */}
+                <DateTimePicker
+                    value={responseDeadline}
+                    mode="datetime"
+                    onChange={(_, d) => d && setResponseDeadline(d)}
+                ></DateTimePicker>
                 <View style={styles.tickContainer}>
                     <Checkbox
                         style={styles.checkbox}
                         value={isSendReminder}
                         onValueChange={setSendReminder}
                         color={isSendReminder ? 'grey' : undefined}
-                    ></Checkbox>  
+                    ></Checkbox>
                     <Text style={styles.tickBoxText}>Remind participants 1 day before deadline</Text>                  
                 </View>
             </View>
 
-            <CancelCreateBar></CancelCreateBar>
+            <CancelCreateBar
+                eventData={{
+                    title: eventTitle
+                }}
+            />
 
 
         </View>
@@ -91,7 +129,7 @@ const styles = StyleSheet.create({
     section: {
         width: '100%',
         alignItems: 'center',
-        marginTop: 10
+        marginTop: 40
     },
     title: {
         fontSize: 40,
@@ -122,7 +160,12 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         paddingLeft: 5,
         paddingRight: 5,
-        width: 150
+        width: 220,
+        height: 25
+    },
+    availRangeContainer: {
+        flexDirection: 'row',
+        alignItems: 'center'
     }
 })
 
