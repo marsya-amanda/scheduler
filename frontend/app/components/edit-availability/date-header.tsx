@@ -13,11 +13,17 @@ export default function DateHeader({date}: DateHeaderProps) {
         month: 'long',
     });
 
+    const weekday = date.toLocaleDateString('en-GB', {
+        weekday: 'short',
+    });
+
+    const formattedDate = `${dayMonth} (${weekday})`;
+
     return(
         <View style={style.dateBlockContainer}>
             <View style={style.dateBlockHeader}>
                 <Checkbox />
-                <Text style={style.dateHeaderText}>{dayMonth}</Text>
+                <Text style={style.dateHeaderText}>{formattedDate}</Text>
             </View>
         </View>
     );
