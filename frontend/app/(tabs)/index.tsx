@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, SectionList, Button } from 'react-native';
+import { Text, View, StyleSheet, SectionList, Button, Dimensions } from 'react-native';
 import ViewOptions from '../components/view-options';
 import CardHeader from '../components/home/event-display/card-header';
 import FinalisedEventBlock from '../components/home/event-display/finalised-event-block';
@@ -6,14 +6,8 @@ import PendingEventBlock from '../components/home/event-display/pending-event-bl
 import React, { useState, useEffect } from 'react';
 import CreateEventButton from '../components/home/create-event-button';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { DUMMY_EVENTS } from '../../constants/dummyEvents';
 import { cardStyles } from '../components/home/event-display/styles';
-import { fetchEvents } from '../../utils/event-api';
 import { useEvents } from '../../utils/use-events';
-import type { Event } from '../types/event';
-
-// const pendingEvents = DUMMY_EVENTS.filter(event => !event.status);
-// const finalisedEvents = DUMMY_EVENTS.filter(event => event.status);
 
 export default function HomeScreen() {
     const [view, setView] = useState('list');
@@ -66,9 +60,6 @@ export default function HomeScreen() {
             
             { view === 'list' ? (
                 <View style={cardStyles.cardContainer}>
-                    {/* <Card cardTitle={ 'Pending' } events={ pendingEvents } />
-                    <Card cardTitle={ 'Finalised' } events={ finalisedEvents } /> */}
-
                     <SectionList
                         sections={sections}
                         keyExtractor={(item) => item.id}
@@ -114,5 +105,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         zIndex: 2,
+        height: Dimensions.get('window').height - 90,
+        width: Dimensions.get('window').width,
     }
 })
