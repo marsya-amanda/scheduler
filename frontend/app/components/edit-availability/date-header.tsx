@@ -1,12 +1,15 @@
 import { View, Text } from 'react-native';
 import Checkbox from 'expo-checkbox'
 import { editAvailabilityStyles } from './styles';
+import React from 'react';
 
 type DateHeaderProps = {
-    date: Date
+    date: Date,
+    onPress: () => void;
+    checked: boolean
 }
 
-export default function DateHeader({date}: DateHeaderProps) {
+const DateHeader: React.FC<DateHeaderProps> = ({date, onPress, checked}) => {
     const style = editAvailabilityStyles;
     const dayMonth = date.toLocaleDateString('en-GB', {
         day: 'numeric',
@@ -22,9 +25,13 @@ export default function DateHeader({date}: DateHeaderProps) {
     return(
         <View style={style.dateBlockContainer}>
             <View style={style.dateBlockHeader}>
-                <Checkbox />
-                <Text style={style.dateHeaderText}>{formattedDate}</Text>
+                <Checkbox onValueChange={onPress} />
+                <Text style={[style.dateHeaderText, checked ? style.checked : style.unchecked]}>
+                    {dayMonth}
+                    </Text>
             </View>
         </View>
     );
 }
+
+export default DateHeader;
