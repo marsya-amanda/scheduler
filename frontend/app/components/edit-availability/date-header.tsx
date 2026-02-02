@@ -27,7 +27,7 @@ const DateHeader: React.FC<DateHeaderProps> = ({date, onPress, checked}) => {
             <View style={style.dateBlockHeader}>
                 <Checkbox onValueChange={onPress} />
                 <Text style={[style.dateHeaderText, checked ? style.checked : style.unchecked]}>
-                    {dayMonth}
+                    {formattedDate}
                     </Text>
             </View>
         </View>
