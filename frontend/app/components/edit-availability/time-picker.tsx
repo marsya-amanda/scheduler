@@ -1,10 +1,13 @@
 import { View, Text, Pressable } from 'react-native';
 import { editAvailabilityStyles } from './styles';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useState } from 'react';
 
-export default function TimePicker() {
+type TimePickerProps = {
+    checked:boolean
+}
+
+export default function TimePicker({checked}:TimePickerProps) {
     const styles = editAvailabilityStyles;
     const [startTime, setStartTime] = useState(new Date());
     const [endTime, setEndTime] = useState(new Date(startTime));
@@ -48,17 +51,16 @@ export default function TimePicker() {
 
     return (
         <View style={styles.timePickerContainer}>
-            <Text>Time available:</Text>
+            <Text style={checked ? styles.checked : styles.unchecked}>
+                Time available:
+            </Text>
 
             {/* add input validation here */}
 
-            <Pressable style={styles.timePickerButton} onPress={showPickerStart}>
-                {/* <DateTimePicker
-                    value={startDate}
-                    mode='time'
-                    display='default'
-                /> */}
-                <Text>
+            <Pressable style={[styles.timePickerButton, checked ? styles.checked : styles.unchecked]} 
+                onPress={showPickerStart}
+            >
+                <Text style={checked ? styles.checked : styles.unchecked}>
                     {String(startTime.getHours()).padStart(2, '0')}:
                     {String(startTime.getMinutes()).padStart(2, '0')}
                 </Text>
@@ -75,15 +77,12 @@ export default function TimePicker() {
             </Pressable>
             
 
-            <Text>-</Text>
+            <Text style={checked ? styles.checked : styles.unchecked}>-</Text>
 
-            <Pressable style={styles.timePickerButton} onPress={showPickerEnd}>
-                {/* <DateTimePicker
-                    value={endDate}
-                    mode='time'
-                    display='default'
-                /> */}
-                <Text>
+            <Pressable style={[styles.timePickerButton, checked ? styles.checked : styles.unchecked]}
+                onPress={showPickerEnd}
+            >
+                <Text style={checked ? styles.checked : styles.unchecked}>
                     {String(endTime.getHours()).padStart(2, '0')}:
                     {String(endTime.getMinutes()).padStart(2, '0')}
                 </Text>

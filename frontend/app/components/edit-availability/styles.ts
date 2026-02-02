@@ -74,5 +74,13 @@ export const editAvailabilityStyles = StyleSheet.create({
     },
     actionText: {
         fontWeight: 'bold'
+    },
+    checked: {
+        color: 'black',
+        borderColor: 'black'
+    },
+    unchecked: {
+        color: 'darkgrey',
+        borderColor: 'darkgrey'
     }
 })
