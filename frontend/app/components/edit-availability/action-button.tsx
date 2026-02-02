@@ -15,7 +15,7 @@ export default function ActionButtons() {
                 </Text>
             </Pressable>
             
-            <Pressable 
+            <Pressable onPress={() => router.push('/(tabs)')}
                 style={editAvailabilityStyles.actionButton}>
                 <Text style={editAvailabilityStyles.actionText}>
                     Confirm
