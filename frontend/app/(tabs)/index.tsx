@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, SectionList, Button } from 'react-native';
+import { Text, View, StyleSheet, SectionList, Button, Dimensions } from 'react-native';
 import ViewOptions from '../components/view-options';
 import CardHeader from '../components/home/event-display/card-header';
 import FinalisedEventBlock from '../components/home/event-display/finalised-event-block';
@@ -114,5 +114,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         zIndex: 2,
+        height: Dimensions.get('window').height - 90,
+        width: Dimensions.get('window').width,
     }
 })
