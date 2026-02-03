@@ -6,6 +6,17 @@ export default function EventConfirmation() {
     const router = useRouter();
     const params = useLocalSearchParams();
 
+    function formatDate(str: string | string[]) {
+        if(Array.isArray(str)) {
+            str = str[0];
+        }
+        return new Date(str).toLocaleDateString("en-GB",{
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
+    }
+
     return (
         <View style={generalStyles.container}>
             <View style={confirmationStyles.topBar}>
@@ -22,7 +33,7 @@ export default function EventConfirmation() {
 
             <View style={generalStyles.section}>
                 <Text style={generalStyles.body}>Date:</Text>
-                <Text style={generalStyles.body}>{params.startDate} ~ {params.endDate}</Text>
+                <Text style={generalStyles.body}>{formatDate(params.startDate)} ~ {formatDate(params.endDate)}</Text>
             </View>
 
             <View style={generalStyles.section}>
