@@ -1,10 +1,10 @@
 import { View, Text, FlatList } from 'react-native';
 import  { editAvailabilityStyles } from '../components/edit-availability/styles';
-import { useRouter } from 'expo-router';
 import ViewOptions from '../components/view-options';
 import { useState } from 'react';
 import AvailabilityBlock from '../components/edit-availability/availability-block';
 import ActionButtons from '../components/edit-availability/action-button'
+import SelectionZone from '../components/edit-availability/cal-view/selection-zone';
 
 const DUMMY_DATES: Date[] = [
     new Date('2024-01-05'),
@@ -31,7 +31,7 @@ const DUMMY_DATES: Date[] = [
 
 
 export default function EditAvailabilityScreen( ) {
-    const [view, setView] = useState('list');
+    const [view, setView] = useState('calendar');
 
     const handleViewChange = (newView: string) => {
         setView(newView);
@@ -49,13 +49,21 @@ export default function EditAvailabilityScreen( ) {
                 <AvailabilityBlock key={date.getTime()} date={date} />
             ))} */}
 
-            <View style={editAvailabilityStyles.content}>
-                <FlatList
-                    data={DUMMY_DATES}
-                    keyExtractor={(item) => item.toISOString()}
-                    renderItem={({item}) => <AvailabilityBlock date={item} />}
-                />
-            </View>
+            { view === 'list' ? 
+            ( 
+                <View style={editAvailabilityStyles.content}>
+                    <FlatList
+                        data={DUMMY_DATES}
+                        keyExtractor={(item) => item.toISOString()}
+                        renderItem={({item}) => <AvailabilityBlock date={item} />}
+                    />
+                </View>
+            )
+            :
+            (
+                <SelectionZone />
+            )
+            }
 
             <ActionButtons />
         </View>

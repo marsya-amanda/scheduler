@@ -9,7 +9,7 @@ export const editAvailabilityStyles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: 20,
+        gap: 10,
     },
     content: {
         display: 'flex',
