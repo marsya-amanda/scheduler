@@ -115,6 +115,13 @@ export default function CreateEventScreen() {
                 title: eventTitle,
                 startDate: startDate.toISOString().slice(0, 10),
                 endDate: endDate.toISOString().slice(0, 10),
+                timeRangeStart: startRange.toTimeString().slice(0, 8),
+                timeRangeEnd: endRange.toTimeString().slice(0, 8),
+                duration: 60, // TODO: 15min time slot picker
+                responseDeadline: responseDeadline.toISOString(),
+                singleDayAvail: isSingleDayAvail,
+                blockAdminAvail: isAdminTimeBlock,
+                sendReminder: isSendReminder
                 }}
             />
         </View>

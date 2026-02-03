@@ -22,18 +22,22 @@ export default function EventConfirmation() {
 
             <View style={generalStyles.section}>
                 <Text style={generalStyles.body}>Date:</Text>
+                <Text style={generalStyles.body}>{params.startDate} ~ {params.endDate}</Text>
             </View>
 
             <View style={generalStyles.section}>
-                <Text style={generalStyles.body}>Time Range</Text>
+                <Text style={generalStyles.body}>Time Range:</Text>
+                <Text style={generalStyles.body}>{params.timeRangeStart} ~ {params.timeRangeEnd}</Text>
             </View>
 
             <View style={generalStyles.section}>
                 <Text style={generalStyles.body}>Duration:</Text>
+                <Text style={generalStyles.body}>{params.duration} minutes</Text>
             </View>
 
             <View style={generalStyles.section}>
                 <Text style={generalStyles.body}>Response Deadline:</Text>
+                <Text style={generalStyles.body}>{params.responseDeadline}</Text>
             </View>
             
         </View>
