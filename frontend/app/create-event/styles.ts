@@ -64,6 +64,10 @@ export const confirmationStyles = StyleSheet.create({
         paddingRight: 20,
         paddingTop: 10,
         paddingBottom: 10
+    },
+    fieldTitle: {
+        fontSize: 20,
+        fontWeight: 600
     }
 
 })

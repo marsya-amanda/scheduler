@@ -17,6 +17,27 @@ export default function EventConfirmation() {
         });
     }
 
+    function formatTime(str: string | string[]) {
+        if(Array.isArray(str)) {
+            str = str[0];
+        }
+        const split = str.split(":");
+        const hr = (parseInt(split[0]) % 12) || 12;
+        const ampm = parseInt(split[0]) >= 12 ? "pm" : "am";
+        return hr + ":" + split[1] + " " + ampm;
+    }
+
+    function formateDateTime(str: string | string[]) {
+        if(Array.isArray(str)) {
+            str = str[0];
+        }
+        const split = str.split("T");
+        const date = formatDate(split[0]);
+        const time = formatTime(split[1]);
+
+        return date + ", " + time;
+    }
+
     return (
         <View style={generalStyles.container}>
             <View style={confirmationStyles.topBar}>
@@ -32,23 +53,23 @@ export default function EventConfirmation() {
             <Text style={confirmationStyles.eventTitle}>{params.title}</Text>
 
             <View style={generalStyles.section}>
-                <Text style={generalStyles.body}>Date:</Text>
+                <Text style={confirmationStyles.fieldTitle}>Date:</Text>
                 <Text style={generalStyles.body}>{formatDate(params.startDate)} ~ {formatDate(params.endDate)}</Text>
             </View>
 
             <View style={generalStyles.section}>
-                <Text style={generalStyles.body}>Time Range:</Text>
-                <Text style={generalStyles.body}>{params.timeRangeStart} ~ {params.timeRangeEnd}</Text>
+                <Text style={confirmationStyles.fieldTitle}>Time Range:</Text>
+                <Text style={generalStyles.body}>{formatTime(params.timeRangeStart)} ~ {formatTime(params.timeRangeEnd)}</Text>
             </View>
 
             <View style={generalStyles.section}>
-                <Text style={generalStyles.body}>Duration:</Text>
+                <Text style={confirmationStyles.fieldTitle}>Duration:</Text>
                 <Text style={generalStyles.body}>{params.duration} minutes</Text>
             </View>
 
             <View style={generalStyles.section}>
-                <Text style={generalStyles.body}>Response Deadline:</Text>
-                <Text style={generalStyles.body}>{params.responseDeadline}</Text>
+                <Text style={confirmationStyles.fieldTitle}>Response Deadline:</Text>
+                <Text style={generalStyles.body}>{formateDateTime(params.responseDeadline)}</Text>
             </View>
             
         </View>
