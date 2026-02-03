@@ -15,7 +15,6 @@ export default function DayBlock() {
             <TimeBlock />
             <TimeBlock />
             <TimeBlock />
-            
         </View>
     );
 }

@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
         width: Dimensions.get('window').width * .9,
         height: 520,
         overflowY: 'scroll',
-        borderWidth: 1
+        borderWidth: 0
     },
     hourBar: {
         width: '13%',
@@ -15,11 +15,11 @@ export const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        borderWidth: 1
+        justifyContent: 'flex-start',
+        borderWidth: 0
     },
     dayBlock: {
-        width: '29%',
+        width: '27%',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
@@ -41,5 +41,26 @@ export const styles = StyleSheet.create({
         height: 30,
         borderBottomWidth: 1,
         borderBottomColor: 'darkgrey'
+    },
+    nextBar: {
+        height: '100%',
+        width: '6%',
+        display: 'flex',
+        alignItems: 'center',
+    },
+    timezoneText: {
+        flex: 1,
+        fontSize: 12,
+        textAlign: 'center',
+    },
+    hourContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        height: 60
+    },
+    hourText: {
+        fontSize: 14,
+        bottom: 8
     }
 });
