@@ -4,7 +4,6 @@ import { useRouter } from "expo-router";
 import CancelCreateBar from "../components/create-event/cancel-create-bar"
 import Checkbox from 'expo-checkbox'
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {createEvent} from '../../utils/event-api';
 import { generalStyles } from './styles';
 // import {ViewOptions} from "../components/view-options";
 
@@ -113,11 +112,11 @@ export default function CreateEventScreen() {
 
             <CancelCreateBar
                 eventData={{
-                    title: eventTitle
+                title: eventTitle,
+                startDate: startDate.toISOString().slice(0, 10),
+                endDate: endDate.toISOString().slice(0, 10),
                 }}
             />
-
-
         </View>
     );
 }

@@ -1,10 +1,12 @@
 import { View, Text, Pressable, StyleSheet } from "react-native"
 import { useRouter } from "expo-router";
+import {createEvent} from '../../../utils/event-api';
 
 export default function CancelCreateBar({ eventData }: any) {
     const router = useRouter()
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
+        const createdEvent = await createEvent(eventData);
         router.push({
             pathname: "/create-event/event-confirmation",
             params: eventData
