@@ -2,6 +2,7 @@ import { Pressable, View, Text, TextInput } from "react-native";
 import React, { useState } from 'react';
 import { useRouter } from "expo-router";
 import CancelCreateBar from "../components/create-event/cancel-create-bar"
+import DurationPicker from "../components/create-event/duration-picker"
 import Checkbox from 'expo-checkbox'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { generalStyles } from './styles';
@@ -22,6 +23,8 @@ export default function CreateEventScreen() {
     const [endDate, setEndDate] = useState(new Date());
     const [startRange, setStartRange] = useState(new Date());
     const [endRange, setEndRange] = useState(new Date());
+
+    const [duration, setDuration] = useState(60);
 
     return (
         <View style={generalStyles.container}>
@@ -88,10 +91,10 @@ export default function CreateEventScreen() {
                 </Pressable>
             </View>
 
-            <View style={generalStyles.section}>
-                <Text style={generalStyles.body}>Event Duration</Text>
-                {/* Todo: add event duration picker */}
-            </View>
+            <DurationPicker
+                value={duration}
+                onChange={setDuration}    
+            />
 
             <View style={generalStyles.section}>
                 <Text style={generalStyles.body}>Response Deadline</Text>
@@ -118,7 +121,7 @@ export default function CreateEventScreen() {
                 endDate: endDate.toISOString().slice(0, 10),
                 timeRangeStart: startRange.toTimeString().slice(0, 8),
                 timeRangeEnd: endRange.toTimeString().slice(0, 8),
-                duration: 60, // TODO: 15min time slot picker
+                duration: duration,
                 responseDeadline: responseDeadline.toISOString(),
                 singleDayAvail: isSingleDayAvail,
                 blockAdminAvail: isAdminTimeBlock,

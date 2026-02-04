@@ -10,7 +10,7 @@ export const generalStyles = StyleSheet.create({
     section: {
         width: '100%',
         alignItems: 'center',
-        marginTop: 30,
+        // marginTop: 30,
         gap: 10
     },
     title: {

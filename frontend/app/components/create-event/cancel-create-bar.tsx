@@ -4,7 +4,7 @@ import {createEvent} from '../../../utils/event-api';
 import { styles } from "./styles"
 
 export default function CancelCreateBar({ eventData }: any) {
-    const router = useRouter()
+    const router = useRouter();
 
     const handleConfirm = async () => {
         const createdEvent = await createEvent(eventData);
