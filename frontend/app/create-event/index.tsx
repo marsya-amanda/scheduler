@@ -5,7 +5,7 @@ import CancelCreateBar from "../components/create-event/cancel-create-bar"
 import Checkbox from 'expo-checkbox'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { generalStyles } from './styles';
-// import {ViewOptions} from "../components/view-options";
+import ViewOptions from "../components/view-options";
 
 export default function CreateEventScreen() {
     const router = useRouter();
@@ -25,6 +25,7 @@ export default function CreateEventScreen() {
 
     return (
         <View style={generalStyles.container}>
+            <ViewOptions/>
 
             <Text style={generalStyles.title}>Create Event</Text>
 

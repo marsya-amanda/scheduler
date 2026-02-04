@@ -16,10 +16,10 @@ export default function CancelCreateBar({ eventData }: any) {
     return (
         <View style={styles.container}>
             <Pressable style={styles.button} onPress={() => router.push("../(tabs)")}>
-                <Text>Cancel</Text>
+                <Text style={styles.buttonText}>Cancel</Text>
             </Pressable>
             <Pressable style= {styles.button} onPress={handleConfirm}>
-                <Text>Confirm</Text>
+                <Text style={styles.buttonText}>Confirm</Text>
             </Pressable>
         </View>
     )
@@ -29,13 +29,19 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         width: '100%',
-        justifyContent: "space-around"
+        justifyContent: "space-around",
+        marginTop: 30
     },
     button: {
         backgroundColor: 'lightgrey',
         borderRadius: 40,
         borderWidth: 1,
-        borderColor: 'black',
-        padding: 5
+        borderColor: 'lightgrey',
+        padding: 7,
+        paddingLeft: 15,
+        paddingRight: 15
+    },
+    buttonText: {
+        fontWeight: 600
     }
 })

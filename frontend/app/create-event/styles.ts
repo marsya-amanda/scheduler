@@ -3,13 +3,15 @@ import { StyleSheet } from 'react-native';
 export const generalStyles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        // justifyContent: 'space-between',
-        // height: '100%'
+        justifyContent: 'space-between',
+        height: '100%',
+        padding: 10
     },
     section: {
         width: '100%',
         alignItems: 'center',
-        marginTop: 40
+        marginTop: 30,
+        gap: 10
     },
     title: {
         fontSize: 40,
@@ -54,7 +56,7 @@ export const confirmationStyles = StyleSheet.create({
         fontFamily: "Georgia",
         fontSize: 30,
         fontStyle: "italic",
-        marginTop: 15
+        textAlign: "center"
     },
     topBar: {
         width: "100%",
