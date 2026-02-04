@@ -50,7 +50,7 @@ export default function CreateEventScreen() {
                     mode="date"
                     onChange={(_, d) => d && setEndDate(d)}
                 ></DateTimePicker>
-                <View style={generalStyles.tickContainer}>
+                <Pressable style={generalStyles.tickContainer} onPress={() => setSingleDayAvail(prev => !prev)}>
                     <Checkbox
                         style={generalStyles.checkbox}
                         value={isSingleDayAvail}
@@ -58,7 +58,7 @@ export default function CreateEventScreen() {
                         color={isSingleDayAvail ? 'grey' : undefined}
                     ></Checkbox>
                     <Text style={generalStyles.tickBoxText}>Single day availability</Text>
-                </View>
+                </Pressable>
             </View>
 
             <View style={generalStyles.section}>
@@ -76,7 +76,7 @@ export default function CreateEventScreen() {
                     onChange={(_, t) => t && setEndRange(t)}
                 ></DateTimePicker>
                 </View>
-                <View style={generalStyles.tickContainer}>
+                <Pressable style={generalStyles.tickContainer} onPress={() => setAdminTimeBlock(prev => !prev)}>
                     <Checkbox
                         style={generalStyles.checkbox}
                         value={isAdminTimeBlock}
@@ -84,7 +84,7 @@ export default function CreateEventScreen() {
                         color={isAdminTimeBlock ? 'grey' : undefined}
                     ></Checkbox>  
                     <Text style={generalStyles.tickBoxText}>Block off time admin is unavailable</Text>                  
-                </View>
+                </Pressable>
             </View>
 
             <View style={generalStyles.section}>
@@ -99,7 +99,7 @@ export default function CreateEventScreen() {
                     mode="datetime"
                     onChange={(_, d) => d && setResponseDeadline(d)}
                 ></DateTimePicker>
-                <View style={generalStyles.tickContainer}>
+                <Pressable style={generalStyles.tickContainer} onPress={() => setSendReminder(prev => !prev)}>
                     <Checkbox
                         style={generalStyles.checkbox}
                         value={isSendReminder}
@@ -107,7 +107,7 @@ export default function CreateEventScreen() {
                         color={isSendReminder ? 'grey' : undefined}
                     ></Checkbox>
                     <Text style={generalStyles.tickBoxText}>Remind participants 1 day before deadline</Text>                  
-                </View>
+                </Pressable>
             </View>
 
             <CancelCreateBar
