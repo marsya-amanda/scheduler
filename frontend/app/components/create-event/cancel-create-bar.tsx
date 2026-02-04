@@ -1,6 +1,7 @@
-import { View, Text, Pressable, StyleSheet } from "react-native"
+import { View, Text, Pressable } from "react-native"
 import { useRouter } from "expo-router";
 import {createEvent} from '../../../utils/event-api';
+import { styles } from "./styles"
 
 export default function CancelCreateBar({ eventData }: any) {
     const router = useRouter()
@@ -24,24 +25,3 @@ export default function CancelCreateBar({ eventData }: any) {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: "row",
-        width: '100%',
-        justifyContent: "space-around",
-        marginTop: 30
-    },
-    button: {
-        backgroundColor: 'lightgrey',
-        borderRadius: 40,
-        borderWidth: 1,
-        borderColor: 'lightgrey',
-        padding: 7,
-        paddingLeft: 15,
-        paddingRight: 15
-    },
-    buttonText: {
-        fontWeight: 600
-    }
-})

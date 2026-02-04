@@ -2,6 +2,7 @@ import { View, Text, Pressable, StyleSheet } from "react-native"
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { confirmationStyles, generalStyles } from './styles';
 import {formatDate, formateDateTime, formatTime} from "../../utils/formatting-helpers";
+import EditBottomBar from "../components/create-event/edit-bottom-bar"
 
 export default function EventConfirmation() {
     const router = useRouter();
@@ -41,6 +42,8 @@ export default function EventConfirmation() {
                 <Text style={confirmationStyles.fieldTitle}>Response Deadline:</Text>
                 <Text style={generalStyles.body}>{formateDateTime(params.responseDeadline)}</Text>
             </View>
+
+            <EditBottomBar/>
             
         </View>
     )
