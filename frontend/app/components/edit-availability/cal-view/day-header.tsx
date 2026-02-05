@@ -4,8 +4,9 @@ import { styles } from './styles';
 export default function DayHeader() {
     return (
         <View style={styles.dateHeader}>
-            <Text>D/M</Text>
-            <Text>W</Text>
+            <Text>{`D/M\nW`}</Text>
+            <Text>{`D/M\nW`}</Text>
+            <Text>{`D/M\nW`}</Text>
         </View>
     );
 }

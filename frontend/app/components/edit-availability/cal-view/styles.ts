@@ -1,13 +1,23 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
 export const styles = StyleSheet.create({  
-    selectionZone: {
+    view: {
         display: 'flex',
         flexDirection: 'row',
         width: Dimensions.get('window').width * .9,
         height: 520,
         overflowY: 'scroll',
-        borderWidth: 0
+        borderWidth: 0,
+    },
+    selectionZone: {
+        display: 'flex',
+        width: '100%',
+        flexDirection: 'column',
+        height: 480,
+        flexWrap: 'wrap',
+        justifyContent: 'flex-start',
+        borderWidth: 0,
+
     },
     hourBar: {
         width: '13%',
@@ -19,20 +29,20 @@ export const styles = StyleSheet.create({
         borderWidth: 0
     },
     dayBlock: {
-        width: '27%',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
     },
     dateHeader: {
         height: 40,
+        width: '100%',
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'space-evenly'
     },
     timeBlock: {
-        width: '100%',
+        width: '33%',
         height: 60,
         borderWidth: 1,
         borderColor: 'black',
@@ -50,6 +60,7 @@ export const styles = StyleSheet.create({
         width: '6%',
         display: 'flex',
         alignItems: 'center',
+        borderWidth: 0
     },
     timezoneText: {
         flex: 1,

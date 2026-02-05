@@ -4,7 +4,7 @@ import ViewOptions from '../components/view-options';
 import { useState } from 'react';
 import AvailabilityBlock from '../components/edit-availability/availability-block';
 import ActionButtons from '../components/edit-availability/action-button'
-import SelectionZone from '../components/edit-availability/cal-view/selection-zone';
+import Calendar from '../components/edit-availability/cal-view/calendar';
 
 const DUMMY_DATES: Date[] = [
     new Date('2024-01-05'),
@@ -61,7 +61,7 @@ export default function EditAvailabilityScreen( ) {
             )
             :
             (
-                <SelectionZone />
+                <Calendar />
             )
             }
 
