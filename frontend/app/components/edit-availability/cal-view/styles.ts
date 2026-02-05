@@ -42,6 +42,9 @@ export const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: 'darkgrey'
     },
+    timeSelectBlock: {
+        height: 15
+    },
     nextBar: {
         height: '100%',
         width: '6%',
@@ -62,5 +65,11 @@ export const styles = StyleSheet.create({
     hourText: {
         fontSize: 14,
         bottom: 8
-    }
+    },
+    selected: {
+        backgroundColor: 'lightblue'
+    },
+    unselected: {
+        backgroundColor: 'none',
+    },
 });
