@@ -1,10 +1,13 @@
-import { View, Text, Pressable, StyleSheet } from "react-native"
+import { View, Text, Pressable } from "react-native"
 import { useRouter } from "expo-router";
+import {createEvent} from '../../../utils/event-api';
+import { styles } from "./styles"
 
 export default function CancelCreateBar({ eventData }: any) {
-    const router = useRouter()
+    const router = useRouter();
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
+        const createdEvent = await createEvent(eventData);
         router.push({
             pathname: "/create-event/event-confirmation",
             params: eventData
@@ -14,26 +17,11 @@ export default function CancelCreateBar({ eventData }: any) {
     return (
         <View style={styles.container}>
             <Pressable style={styles.button} onPress={() => router.push("../(tabs)")}>
-                <Text>Cancel</Text>
+                <Text style={styles.buttonText}>Cancel</Text>
             </Pressable>
             <Pressable style= {styles.button} onPress={handleConfirm}>
-                <Text>Confirm</Text>
+                <Text style={styles.buttonText}>Confirm</Text>
             </Pressable>
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: "row",
-        width: '100%',
-        justifyContent: "space-around"
-    },
-    button: {
-        backgroundColor: 'lightgrey',
-        borderRadius: 40,
-        borderWidth: 1,
-        borderColor: 'black',
-        padding: 5
-    }
-})

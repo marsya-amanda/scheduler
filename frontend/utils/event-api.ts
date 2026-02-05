@@ -9,7 +9,11 @@ export async function fetchEvents() {
   return res.json();
 }
 
-export async function createEvent(event: Event) {
+export async function createEvent(event: {
+  title: string;
+  startDate: string;
+  endDate: string;
+}) {
   const res = await fetch(API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

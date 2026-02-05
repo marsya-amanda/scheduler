@@ -46,7 +46,7 @@ export default function HomeScreen() {
             <View>
                 <Text>failed. Try again</Text>
                 <Text>{error}</Text>
-                <Button title='retry' onPress={useEvents} />
+                <Button title='retry' onPress={refresh} />
             </View>
         )
     }
