@@ -1,13 +1,12 @@
 import { View, Text, Pressable, StyleSheet } from "react-native"
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { confirmationStyles, generalStyles } from './styles';
-import {formatDate, formateDateTime, formatTime} from "../../utils/formatting-helpers";
+import {formatDate, formateDateTime, formatTime, formatDuration} from "../../utils/formatting-helpers";
 import EditBottomBar from "../components/create-event/edit-bottom-bar"
 
 export default function EventConfirmation() {
     const router = useRouter();
     const params = useLocalSearchParams();
-
 
     return (
         <View style={generalStyles.container}>
@@ -35,7 +34,7 @@ export default function EventConfirmation() {
 
             <View style={generalStyles.section}>
                 <Text style={confirmationStyles.fieldTitle}>Duration:</Text>
-                <Text style={generalStyles.body}>{params.duration} minutes</Text>
+                <Text style={generalStyles.body}>{formatDuration(params.duration)}</Text>
             </View>
 
             <View style={generalStyles.section}>
