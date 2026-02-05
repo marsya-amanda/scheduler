@@ -24,7 +24,7 @@ export default function EventConfirmation() {
             <Text style={confirmationStyles.eventTitle}>{params.title}</Text>
 
             <View style={generalStyles.section}>
-                <Text style={confirmationStyles.fieldTitle}>Date:</Text>
+                <Text style={confirmationStyles.fieldTitle}>Date Range:</Text>
                 <Text style={generalStyles.body}>{formatDate(params.startDate)} ~ {formatDate(params.endDate)}</Text>
             </View>
 
