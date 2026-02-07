@@ -35,14 +35,14 @@ export const styles = StyleSheet.create({
     },
     dateHeader: {
         height: 40,
-        width: '100%',
+        width: Dimensions.get('window').width * .72,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly'
     },
     timeBlock: {
-        width: '33%',
+        width: Dimensions.get('window').width * .24,
         height: 60,
         borderWidth: 1,
         borderColor: 'black',
