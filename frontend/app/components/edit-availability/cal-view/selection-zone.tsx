@@ -2,15 +2,14 @@ import TimeBlock from './time-block';
 import { View, Dimensions } from 'react-native';
 import { styles } from './styles';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { CoordsToID } from '../../../../utils/coords-to-id';
 
 export default function SelectionZone() {
-    const items: { id: number }[] = Array.from({ length: 24 }, (_, i) => ({ id: i + 1 }));
+    const items: { id: number }[] = Array.from({ length: 24 }, (_, i) => ({ id: i }));
+    const selected: boolean[] = new Array(96).fill(false);
 
     const TIMESLOT_WIDTH = Dimensions.get('window').width * .24;
     const TIMESLOT_HEIGHT = 15;
-    const SELECTIONZONE_XWIDTH = 3;
-    const SELECTIONZONE_YHEIGHT = 480 / TIMESLOT_HEIGHT;
+    const SELECTIONZONE_YHEIGHT: number = 480 / TIMESLOT_HEIGHT;
 
     const getCoords = (x: number, y: number) => {
         'worklet'; // signals to compiler to serialise and run this func on UI thread. MANDATORY
@@ -19,7 +18,23 @@ export default function SelectionZone() {
         return {x_box, y_box};
     }
 
+    const getID = (x: number, y: number) => {
+        'worklet';
+        const {x_box, y_box} = getCoords(x, y);
+        return x_box * SELECTIONZONE_YHEIGHT + y_box;
+    }
+
     const pan = Gesture.Pan().
+            onBegin((e) => {
+                console.log('begin');
+                
+                if (e.numberOfPointers === 1) { 
+                    const {x_box, y_box} = getCoords(e.x ?? e.absoluteX, e.y ?? e.absoluteY);
+
+                    console.log('box pos: ', x_box, y_box);
+                    console.log(getID(e.x, e.y));
+                }
+            }).
             onStart((e) => {
                 console.log('panning');
                 
@@ -27,6 +42,7 @@ export default function SelectionZone() {
                     const {x_box, y_box} = getCoords(e.x ?? e.absoluteX, e.y ?? e.absoluteY);
 
                     console.log('box pos: ', x_box, y_box);
+                    console.log(getID(e.x, e.y));
                 }
             }).
             onTouchesMove((e) => {
@@ -34,18 +50,19 @@ export default function SelectionZone() {
                     const {x_box, y_box} = getCoords(e.changedTouches[0].x, e.changedTouches[0].y)
 
                     console.log('box pos: ', x_box, y_box)
-
+                    console.log(getID(e.changedTouches[0].x, e.changedTouches[0].y));
                 }
             }).
             onEnd(() => {
                 console.log('stopped panning');
             });
 
+
     return (
         <GestureDetector gesture={pan} >
             <View style={styles.selectionZone}>
                 {items.map(({id}) => (
-                    <TimeBlock key={id} />
+                    <TimeBlock key={id} blockID={null} ids={null}/>
                 ))}
             </View>
         </GestureDetector>

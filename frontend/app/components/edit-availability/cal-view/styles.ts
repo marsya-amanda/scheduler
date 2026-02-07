@@ -46,14 +46,17 @@ export const styles = StyleSheet.create({
         height: 60,
         borderWidth: 1,
         borderColor: 'black',
+        zIndex: 5
     },
     timeSubBlock: {
         height: 30,
         borderBottomWidth: 1,
-        borderBottomColor: 'darkgrey'
+        borderBottomColor: 'darkgrey',
+        zIndex: 10
     },
     timeSelectBlock: {
-        height: 15
+        height: 15,
+        zIndex: 0
     },
     nextBar: {
         height: '100%',
@@ -78,7 +81,8 @@ export const styles = StyleSheet.create({
         bottom: 8
     },
     selected: {
-        backgroundColor: 'lightblue'
+        backgroundColor: 'lightblue',
+        zIndex: 1
     },
     unselected: {
         backgroundColor: 'none',
