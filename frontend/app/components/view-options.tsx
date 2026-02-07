@@ -2,12 +2,12 @@ import { Text, View, StyleSheet, Pressable } from 'react-native';
 import React, { useState } from 'react';
 
 type ViewOptionsProps = {
-    // create a prop which is a function.
+    givenView: string | null,
     onViewChange?: (view: string) => void;
 };
 
-const ViewOptions: React.FC<ViewOptionsProps> = ({ onViewChange }) => {
-    const [view, setView] = useState('list');
+const ViewOptions: React.FC<ViewOptionsProps> = ({ givenView, onViewChange }) => {
+    const [view, setView] = useState(givenView ?? 'list');
 
     const onListPress = () => {
         setView('list');

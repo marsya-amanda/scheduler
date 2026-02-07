@@ -56,7 +56,7 @@ export default function HomeScreen() {
         // pass view to DE so DE knows which presentation to use
         
         <SafeAreaView style={ styles.parent }>
-            <ViewOptions onViewChange={handleViewChange} />
+            <ViewOptions givenView={null} onViewChange={handleViewChange} />
             
             { view === 'list' ? (
                 <View style={cardStyles.cardContainer}>
