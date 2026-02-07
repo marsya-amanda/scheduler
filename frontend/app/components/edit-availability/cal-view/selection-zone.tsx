@@ -2,10 +2,17 @@ import TimeBlock from './time-block';
 import { View, Dimensions } from 'react-native';
 import { styles } from './styles';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import React, {useState} from 'react';
+import { scheduleOnRN } from 'react-native-worklets';
+import { useSharedValue } from 'react-native-reanimated';
 
 export default function SelectionZone() {
+    type Bool4 = [boolean, boolean, boolean, boolean];
+
     const items: { id: number }[] = Array.from({ length: 24 }, (_, i) => ({ id: i }));
-    const selected: boolean[] = new Array(96).fill(false);
+    const [selected, setSelected] = useState<boolean[]>(
+        () => Array(96).fill(false)
+    );
 
     const TIMESLOT_WIDTH = Dimensions.get('window').width * .24;
     const TIMESLOT_HEIGHT = 15;
@@ -24,81 +31,65 @@ export default function SelectionZone() {
         return x_box * SELECTIONZONE_YHEIGHT + y_box;
     }
 
+    const [prevID, setPrevID] = useState(-1);
+    const toggleAtID = (index: number) => {
+        if (index === prevID) return;
+        setSelected(prev => {
+            const next = [...prev];
+            next[index] = !next[index];
+            setPrevID(index);
+            return next;
+        })
+    }
+
+    // method2
+    const prevID2 = useSharedValue(-1);
+    const selected2 = useSharedValue(Array(96).fill(false));
+    const toggleAtID2 = (index: number) => {
+        'worklet';
+        if(index === prevID2.value) return;
+        selected2.value[index] = !selected2.value[index];
+        prevID2.value = index;
+    }
+
     const pan = Gesture.Pan().
             onBegin((e) => {
-                console.log('begin');
-                
-                if (e.numberOfPointers === 1) { 
-                    const {x_box, y_box} = getCoords(e.x ?? e.absoluteX, e.y ?? e.absoluteY);
+                if (e.numberOfPointers !== 1) return;
+                const id = getID(e.x, e.y);
 
-                    console.log('box pos: ', x_box, y_box);
-                    console.log(getID(e.x, e.y));
-                }
-            }).
-            onStart((e) => {
-                console.log('panning');
-                
-                if (e.numberOfPointers === 1) { 
-                    const {x_box, y_box} = getCoords(e.x ?? e.absoluteX, e.y ?? e.absoluteY);
-
-                    console.log('box pos: ', x_box, y_box);
-                    console.log(getID(e.x, e.y));
-                }
+                scheduleOnRN(toggleAtID, id);
+                //toggleAtID2(id);
             }).
             onTouchesMove((e) => {
-                if (e.numberOfTouches === 1) { 
-                    const {x_box, y_box} = getCoords(e.changedTouches[0].x, e.changedTouches[0].y)
+                if (e.numberOfTouches !== 1) return;
 
-                    console.log('box pos: ', x_box, y_box)
-                    console.log(getID(e.changedTouches[0].x, e.changedTouches[0].y));
-                }
+                const id = getID(e.changedTouches[0].x, e.changedTouches[0].y);
+                scheduleOnRN(toggleAtID, id);
+                //toggleAtID2(id);
             }).
-            onEnd(() => {
-                console.log('stopped panning');
+            onEnd((e) => {
+                scheduleOnRN(setPrevID, -1);
+                //prevID2.value = -1;
             });
 
+    const tap = Gesture.Tap().
+            onEnd((e, success) => {
+                if (success) {
+                    scheduleOnRN(setPrevID, -1);
+                    //prevID2.value = -1;
+                }
+            })
+
+    const combined = Gesture.Exclusive(tap, pan);
 
     return (
-        <GestureDetector gesture={pan} >
+        <GestureDetector gesture={combined} >
             <View style={styles.selectionZone}>
                 {items.map(({id}) => (
-                    <TimeBlock key={id} blockID={null} ids={null}/>
+                    <TimeBlock key={id} blockID={id} ids={selected.slice(id * 4, id * 4 + 4) as Bool4}/>
                 ))}
             </View>
         </GestureDetector>
         
     );
 }
-
-/* 
-Gesture Pan Event Structure: 
-
-{
-    "allTouches": [{
-        "absoluteX": 111.33333333333333, 
-        "absoluteY": 347, 
-        "id": 0, 
-        "x": 45.99999936421712, 
-        "y": 117
-    }], 
-    "changedTouches": [{
-        "absoluteX": 111.33333333333333, 
-        "absoluteY": 347, 
-        "id": 0, 
-        "x": 45.99999936421712, 
-        "y": 117
-    }], 
-    "eventName": "onGestureHandlerEvent", 
-    "eventType": 2, 
-    "handlerTag": 1, 
-    "numberOfTouches": 1, 
-    "pointerType": 0, 
-    "state": 4, 
-    "target": 512
-}
-
-Interpret:
-- doesn't matter allTouches or changedTouches - allTouches track multi-finger, but we only take one in
-- test multiple fingers later on
-- only register numberOfTouches == 1
-*/

@@ -39,7 +39,7 @@ export default function EditAvailabilityScreen( ) {
 
     return (
         <View style={editAvailabilityStyles.parent}>
-            <ViewOptions onViewChange={handleViewChange} />
+            <ViewOptions givenView={view} onViewChange={handleViewChange} />
 
             <Text style={editAvailabilityStyles.title}>
                 Your Availability

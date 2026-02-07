@@ -82,7 +82,8 @@ export const styles = StyleSheet.create({
     },
     selected: {
         backgroundColor: 'lightblue',
-        zIndex: 1
+        zIndex: 1,
+        opacity: 0.5
     },
     unselected: {
         backgroundColor: 'none',
