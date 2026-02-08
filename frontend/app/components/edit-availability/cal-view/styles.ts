@@ -86,6 +86,6 @@ export const styles = StyleSheet.create({
         opacity: 0.5
     },
     unselected: {
-        backgroundColor: 'none',
+        backgroundColor: 'transparent',
     },
 });

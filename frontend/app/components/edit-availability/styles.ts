@@ -4,12 +4,12 @@ export const editAvailabilityStyles = StyleSheet.create({
     parent: {
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
-        paddingTop: 47,
-        paddingBottom: 47,
+        paddingTop: 23.5,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         gap: 10,
+        overflowY: 'scroll'
     },
     content: {
         display: 'flex',

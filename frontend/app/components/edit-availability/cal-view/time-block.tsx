@@ -53,33 +53,33 @@ function TimeBlock({ blockID, ids }: TimeBlockProps) {
     return (
         <View style={styles.timeBlock}>
             <View style={styles.timeSubBlock}>
-                <View 
+                <Animated.View 
                     style={[styles.timeSelectBlock,
                     ids ? (ids[0] ? styles.selected : styles.unselected) : (DUMMY[0] ? styles.selected : styles.unselected)
                 ]}>
                     <Text>{ids ? ids[0] : DUMMY[0]}</Text>
-                </View>
+                </Animated.View>
 
-                <View style={[
+                <Animated.View style={[
                     styles.timeSelectBlock, 
                     ids ? (ids[1] ? styles.selected : styles.unselected) : (DUMMY[1] ? styles.selected : styles.unselected)]
                     }>
                     <Text>{ids ? ids[1] : DUMMY[1]}</Text>
-                </View>
+                </Animated.View>
             </View>
 
             <View style={styles.timeSubBlock}>
-                <View style={[
+                <Animated.View style={[
                     styles.timeSelectBlock,
                     ids ? (ids[2] ? styles.selected : styles.unselected) : (DUMMY[2] ? styles.selected : styles.unselected)
                     ]}>
-                </View>
+                </Animated.View>
 
-                <View style={[
+                <Animated.View style={[
                     styles.timeSelectBlock,
                     ids ? (ids[3] ? styles.selected : styles.unselected) : (DUMMY[3] ? styles.selected : styles.unselected)
                     ]}>
-                </View>
+                </Animated.View>
             </View>
         </View>
     );

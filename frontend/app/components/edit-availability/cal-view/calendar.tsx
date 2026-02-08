@@ -11,7 +11,7 @@ export default function Calendar() {
 
 
     return (
-        <GestureHandlerRootView style={{height: 550}}>
+        <GestureHandlerRootView style={{height: 530}}>
                 <View style={styles.view}>
                     <HourBar />
 

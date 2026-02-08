@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, ScrollView } from 'react-native';
 import  { editAvailabilityStyles } from '../components/edit-availability/styles';
 import ViewOptions from '../components/view-options';
 import { useState } from 'react';
@@ -39,33 +39,41 @@ export default function EditAvailabilityScreen( ) {
 
     return (
         <View style={editAvailabilityStyles.parent}>
-            <ViewOptions givenView={view} onViewChange={handleViewChange} />
+            <ScrollView centerContent={true} contentContainerStyle={[editAvailabilityStyles.parent, {flex: 1}]}>
+                <ViewOptions givenView={view} onViewChange={handleViewChange} />
 
-            <Text style={editAvailabilityStyles.title}>
-                Your Availability
-            </Text>
-            
-            {/* {DUMMY_DATES.map(date => (
-                <AvailabilityBlock key={date.getTime()} date={date} />
-            ))} */}
+                <Text style={editAvailabilityStyles.title}>
+                    Your Availability
+                </Text>
+                
+                {/* {DUMMY_DATES.map(date => (
+                    <AvailabilityBlock key={date.getTime()} date={date} />
+                ))} */}
 
-            { view === 'list' ? 
-            ( 
-                <View style={editAvailabilityStyles.content}>
-                    <FlatList
-                        data={DUMMY_DATES}
-                        keyExtractor={(item) => item.toISOString()}
-                        renderItem={({item}) => <AvailabilityBlock date={item} />}
-                    />
-                </View>
-            )
-            :
-            (
-                <Calendar />
-            )
-            }
+                { view === 'list' ? 
+                ( 
+                    <View style={editAvailabilityStyles.content}>
+                        <FlatList
+                            data={DUMMY_DATES}
+                            keyExtractor={(item) => item.toISOString()}
+                            renderItem={({item}) => <AvailabilityBlock date={item} />}
+                        />
+                        <ActionButtons />
+                    </View>
+                )
+                :
+                (
+                    <View style={editAvailabilityStyles.content}>
+                        <Calendar />
+                        <Text style={{fontSize: 18, textAlign: 'center'}}>Timezone: Australia/Sydney</Text>
 
-            <ActionButtons />
+                        <ActionButtons />
+                    </View>
+                )
+                }
+
+            </ScrollView>
+
         </View>
     );
 }

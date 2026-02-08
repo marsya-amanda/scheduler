@@ -6,6 +6,7 @@ import React, {useState} from 'react';
 import { scheduleOnRN } from 'react-native-worklets';
 import { useSharedValue } from 'react-native-reanimated';
 
+// make this into memo
 export default function SelectionZone() {
     type Bool4 = [boolean, boolean, boolean, boolean];
 
