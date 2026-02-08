@@ -39,40 +39,32 @@ export default function EditAvailabilityScreen( ) {
 
     return (
         <View style={editAvailabilityStyles.parent}>
-            <ScrollView centerContent={true} contentContainerStyle={[editAvailabilityStyles.parent, {flex: 1}]}>
-                <ViewOptions givenView={view} onViewChange={handleViewChange} />
+            <ViewOptions givenView={view} onViewChange={handleViewChange} />
 
-                <Text style={editAvailabilityStyles.title}>
-                    Your Availability
-                </Text>
-                
-                {/* {DUMMY_DATES.map(date => (
-                    <AvailabilityBlock key={date.getTime()} date={date} />
-                ))} */}
+            <Text style={editAvailabilityStyles.title}>
+                Your Availability
+            </Text>
 
-                { view === 'list' ? 
-                ( 
-                    <View style={editAvailabilityStyles.content}>
-                        <FlatList
-                            data={DUMMY_DATES}
-                            keyExtractor={(item) => item.toISOString()}
-                            renderItem={({item}) => <AvailabilityBlock date={item} />}
-                        />
-                        <ActionButtons />
-                    </View>
-                )
-                :
-                (
-                    <View style={editAvailabilityStyles.content}>
-                        <Calendar />
-                        <Text style={{fontSize: 18, textAlign: 'center'}}>Timezone: Australia/Sydney</Text>
+            { view === 'list' ? 
+            ( 
+                <View style={editAvailabilityStyles.content}>
+                    <FlatList
+                        data={DUMMY_DATES}
+                        keyExtractor={(item) => item.toISOString()}
+                        renderItem={({item}) => <AvailabilityBlock date={item} />}
+                    />
+                    <ActionButtons />
+                </View>
+            )
+            :
+            (
+                <View style={editAvailabilityStyles.content}>
+                    <Calendar />
 
-                        <ActionButtons />
-                    </View>
-                )
-                }
-
-            </ScrollView>
+                    <ActionButtons />
+                </View>
+            )
+            }
 
         </View>
     );

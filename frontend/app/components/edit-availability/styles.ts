@@ -4,7 +4,7 @@ export const editAvailabilityStyles = StyleSheet.create({
     parent: {
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
-        paddingTop: 23.5,
+        paddingTop: 47,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -18,7 +18,7 @@ export const editAvailabilityStyles = StyleSheet.create({
         gap: 10,
         overflowY: 'scroll',
         overflowX: 'hidden',
-        height: Dimensions.get('window').height * .62,
+        height: Dimensions.get('window').height * .72,
     },
     title: {
         fontSize: 30,
