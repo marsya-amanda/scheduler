@@ -93,3 +93,13 @@ export const buttonBars = StyleSheet.create({
         fontWeight: 600
     }
 })
+
+export const notesBox = StyleSheet.create({
+    container: {
+        borderWidth: 1,
+        borderColor: "black",
+        width: 280,
+        height: 70,
+        justifyContent: "space-between"
+    }
+})

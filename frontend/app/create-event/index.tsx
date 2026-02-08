@@ -7,6 +7,7 @@ import Checkbox from 'expo-checkbox'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { generalStyles } from '../components/create-event/styles';
 import ViewOptions from "../components/view-options";
+import NotesBox from "../components/create-event/notes-box"
 
 export default function CreateEventScreen() {
     const router = useRouter();
@@ -108,7 +109,7 @@ export default function CreateEventScreen() {
                 </Pressable>
             </View>
 
-
+            <NotesBox/>
 
             <CancelCreateBar
                 eventData={{
