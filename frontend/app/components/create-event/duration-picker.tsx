@@ -1,7 +1,7 @@
 import { View, Text } from "react-native"
 import React, { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { generalStyles } from '../../create-event/styles';
+import { generalStyles } from './styles';
 
 export default function DurationPicker({ value, onChange }: any) {
 

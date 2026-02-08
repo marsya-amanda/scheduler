@@ -1,6 +1,6 @@
 import { View, Text, Pressable, StyleSheet } from "react-native"
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { confirmationStyles, generalStyles } from './styles';
+import { confirmationStyles, generalStyles } from '../components/create-event/styles';
 import {formatDate, formateDateTime, formatTime, formatDuration} from "../../utils/formatting-helpers";
 import EditBottomBar from "../components/create-event/edit-bottom-bar"
 
