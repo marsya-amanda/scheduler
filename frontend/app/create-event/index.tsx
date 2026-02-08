@@ -28,7 +28,6 @@ export default function CreateEventScreen() {
 
     return (
         <View style={generalStyles.container}>
-            <ViewOptions/>
 
             <Text style={generalStyles.title}>Create Event</Text>
 
