@@ -1,7 +1,7 @@
 import { View, Text, Pressable } from "react-native"
 import { useRouter } from "expo-router";
 import {createEvent} from '../../../utils/event-api';
-import { styles } from "./styles"
+import { buttonBars } from "./styles"
 
 export default function CancelCreateBar({ eventData }: any) {
     const router = useRouter();
@@ -15,12 +15,12 @@ export default function CancelCreateBar({ eventData }: any) {
     };
 
     return (
-        <View style={styles.container}>
-            <Pressable style={styles.button} onPress={() => router.push("../(tabs)")}>
-                <Text style={styles.buttonText}>Cancel</Text>
+        <View style={buttonBars.container}>
+            <Pressable style={buttonBars.button} onPress={() => router.push("../(tabs)")}>
+                <Text style={buttonBars.buttonText}>Cancel</Text>
             </Pressable>
-            <Pressable style= {styles.button} onPress={handleConfirm}>
-                <Text style={styles.buttonText}>Confirm</Text>
+            <Pressable style= {buttonBars.button} onPress={handleConfirm}>
+                <Text style={buttonBars.buttonText}>Confirm</Text>
             </Pressable>
         </View>
     )

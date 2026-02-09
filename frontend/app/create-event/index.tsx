@@ -5,8 +5,9 @@ import CancelCreateBar from "../components/create-event/cancel-create-bar"
 import DurationPicker from "../components/create-event/duration-picker"
 import Checkbox from 'expo-checkbox'
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { generalStyles } from './styles';
+import { generalStyles } from '../components/create-event/styles';
 import ViewOptions from "../components/view-options";
+import NotesBox from "../components/create-event/notes-box";
 
 export default function CreateEventScreen() {
     const router = useRouter();
@@ -28,7 +29,6 @@ export default function CreateEventScreen() {
 
     return (
         <View style={generalStyles.container}>
-            <ViewOptions/>
 
             <Text style={generalStyles.title}>Create Event</Text>
 
@@ -91,11 +91,6 @@ export default function CreateEventScreen() {
                 </Pressable>
             </View>
 
-            <DurationPicker
-                value={duration}
-                onChange={setDuration}    
-            />
-
             <View style={generalStyles.section}>
                 <Text style={generalStyles.body}>Response Deadline</Text>
                 <DateTimePicker
@@ -113,6 +108,8 @@ export default function CreateEventScreen() {
                     <Text style={generalStyles.tickBoxText}>Remind participants 1 day before deadline</Text>                  
                 </Pressable>
             </View>
+
+            <NotesBox/>
 
             <CancelCreateBar
                 eventData={{

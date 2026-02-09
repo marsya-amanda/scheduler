@@ -1,17 +1,17 @@
 import { View, Text, Pressable } from "react-native"
 import { useRouter } from "expo-router";
-import { styles } from "./styles"
+import { buttonBars } from "./styles"
 
 export default function EditBottomBar() {
     const router = useRouter();
 
     return (
-        <View style={styles.container}>
-            <Pressable style={styles.button}>
-                <Text style={styles.buttonText}>Edit Event</Text>
+        <View style={buttonBars.container}>
+            <Pressable style={buttonBars.button}>
+                <Text style={buttonBars.buttonText}>Edit Event</Text>
             </Pressable>
-            <Pressable style={styles.button} onPress={() => router.push("../edit-availability")}>
-                <Text style={styles.buttonText}>Your Availability</Text>
+            <Pressable style={buttonBars.button} onPress={() => router.push("../edit-availability")}>
+                <Text style={buttonBars.buttonText}>Your Availability</Text>
             </Pressable>
         </View>
     )
