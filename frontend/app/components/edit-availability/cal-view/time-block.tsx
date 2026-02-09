@@ -1,90 +1,88 @@
 import { View, Text } from 'react-native';
 import { styles } from './styles';
-import React from 'react';
-import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+import React, {memo} from 'react';
+import Animated, { SharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
 type TimeBlockProps = {
-    blockID: number | null,
-    ids: [boolean, boolean, boolean, boolean] | null
+    blockID: number,
+    committedSelection: SharedValue<boolean[]>;
+    workingSelection: SharedValue<Int8Array>;
 }
 
-// export default function TimeBlock({ blockID, ids }: TimeBlockProps) {
-//     const DUM = ids ?? [false, false, false, false];
+export default function TimeBlock({ blockID, committedSelection, workingSelection }: TimeBlockProps) {
+    const startID = blockID * 4;
+    
+    const cellStyle0 = useAnimatedStyle(() => {
+        'worklet';
+        const id = startID;
+        const overlay = workingSelection.value[id];
 
-//     const style0 = useAnimatedStyle(() => ({
-//         backgroundColor: DUM[0] ? 'blue' : 'none',
-//         opacity: 0.5
-//     }));
+        // if not untouched (-1), then use workingSelection value, else use committedSelection
+        let selected = false;
+        if (overlay === -1) {
+            selected = committedSelection.value[id];
+        } else if (overlay === 1) {
+            selected = true
+        } else {
+            selected = false;
+        }
 
-//     const style1 = useAnimatedStyle(() => ({
-//         backgroundColor: DUM[1] ? 'blue' : 'none',
-//         opacity: 0.5
-//     }));
+        return {
+            backgroundColor: selected ? '#000000' : 'transparent',
+            opacity: 0.5
+        };
+    });
 
-//     const style2 = useAnimatedStyle(() => ({
-//         backgroundColor: DUM[2] ? 'blue' : 'none',
-//         opacity: 0.5
-//     }));
+    const cellStyle1 = useAnimatedStyle(() => {
+        'worklet';
+        const id = startID + 1;
 
-//     const style3 = useAnimatedStyle(() => ({
-//         backgroundColor: DUM[3] ? 'blue' : 'none',
-//         opacity: 0.5
-//     }));
+        const overlay = workingSelection.value[id];
+        const selected = overlay !== -1 ? overlay === 1 : committedSelection.value[id];
 
-//     return (
-//         <View style={styles.timeBlock}>
-//         <View style={styles.timeSubBlock}>
-//             <Animated.View style={[styles.timeSelectBlock, style0]} />
-//             <Animated.View style={[styles.timeSelectBlock, style1]} />
-//         </View>
+        return {
+            backgroundColor: selected ? '#000000' : 'transparent',
+            opacity: 0.5
+        };
+    });
 
-//         <View style={styles.timeSubBlock}>
-//             <Animated.View style={[styles.timeSelectBlock, style2]} />
-//             <Animated.View style={[styles.timeSelectBlock, style3]} />
-//         </View>
-//         </View>
-//     );
-// }
+    const cellStyle2 = useAnimatedStyle(() => {
+        'worklet';
+        const id = startID + 2;
 
+        const overlay = workingSelection.value[id];
+        const selected = overlay !== -1 ? overlay === 1 : committedSelection.value[id];
 
-function TimeBlock({ blockID, ids }: TimeBlockProps) {    
-    const DUMMY: boolean[] = [false, false, false, false];
+        return {
+            backgroundColor: selected ? '#000000' : 'transparent',
+            opacity: 0.5
+        };
+    });
+
+    const cellStyle3 = useAnimatedStyle(() => {
+        'worklet';
+        const id = startID + 3;
+
+        const overlay = workingSelection.value[id];
+        const selected = overlay !== -1 ? overlay === 1 : committedSelection.value[id];
+
+        return {
+            backgroundColor: selected ? '#252323ff' : 'transparent',
+            opacity: 0.5
+        };
+    });
 
     return (
         <View style={styles.timeBlock}>
             <View style={styles.timeSubBlock}>
-                <Animated.View 
-                    style={[styles.timeSelectBlock,
-                    ids ? (ids[0] ? styles.selected : styles.unselected) : (DUMMY[0] ? styles.selected : styles.unselected)
-                ]}>
-                    <Text>{ids ? ids[0] : DUMMY[0]}</Text>
-                </Animated.View>
-
-                <Animated.View style={[
-                    styles.timeSelectBlock, 
-                    ids ? (ids[1] ? styles.selected : styles.unselected) : (DUMMY[1] ? styles.selected : styles.unselected)]
-                    }>
-                    <Text>{ids ? ids[1] : DUMMY[1]}</Text>
-                </Animated.View>
+                <Animated.View style={[styles.timeSelectBlock, cellStyle0]} />
+                <Animated.View style={[styles.timeSelectBlock, cellStyle1]} />
             </View>
 
             <View style={styles.timeSubBlock}>
-                <Animated.View style={[
-                    styles.timeSelectBlock,
-                    ids ? (ids[2] ? styles.selected : styles.unselected) : (DUMMY[2] ? styles.selected : styles.unselected)
-                    ]}>
-                </Animated.View>
-
-                <Animated.View style={[
-                    styles.timeSelectBlock,
-                    ids ? (ids[3] ? styles.selected : styles.unselected) : (DUMMY[3] ? styles.selected : styles.unselected)
-                    ]}>
-                </Animated.View>
+                <Animated.View style={[styles.timeSelectBlock, cellStyle2]} />
+                <Animated.View style={[styles.timeSelectBlock, cellStyle3]} />
             </View>
         </View>
     );
 }
-
-export default React.memo(TimeBlock, (prevProps, nextProps) => {
-    return JSON.stringify(prevProps.ids) === JSON.stringify(nextProps.ids);
-});
