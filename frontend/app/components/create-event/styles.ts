@@ -10,7 +10,6 @@ export const generalStyles = StyleSheet.create({
     section: {
         width: '100%',
         alignItems: 'center',
-        // marginTop: 30,
         gap: 10
     },
     title: {
@@ -40,8 +39,7 @@ export const generalStyles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 1,
         borderColor: 'black',
-        paddingLeft: 5,
-        paddingRight: 5,
+        paddingHorizontal: 5,
         width: 220,
         height: 25
     },
@@ -62,10 +60,8 @@ export const confirmationStyles = StyleSheet.create({
         width: "100%",
         flexDirection: "row",
         justifyContent: "space-between",
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingTop: 10,
-        paddingBottom: 10
+        paddingHorizontal: 20,
+        paddingVertical: 10
     },
     fieldTitle: {
         fontSize: 20,
@@ -78,16 +74,15 @@ export const buttonBars = StyleSheet.create({
         flexDirection: "row",
         width: '100%',
         justifyContent: "space-around",
-        marginTop: 30
+        marginTop: 20
     },
     button: {
         backgroundColor: 'lightgrey',
         borderRadius: 40,
         borderWidth: 1,
         borderColor: 'lightgrey',
-        padding: 7,
-        paddingLeft: 15,
-        paddingRight: 15
+        paddingVertical: 7,
+        paddingHorizontal: 15
     },
     buttonText: {
         fontWeight: 600
@@ -95,11 +90,30 @@ export const buttonBars = StyleSheet.create({
 })
 
 export const notesBox = StyleSheet.create({
-    container: {
+    mainContainer: {
         borderWidth: 1,
         borderColor: "black",
         width: 280,
         height: 70,
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        padding: 3
+    },
+    tagSelectionContainer: {
+        flexDirection: "row",
+        alignItems: "center"
+    },
+    tagText: {
+        fontSize: 10
+    },
+    tag: {
+        borderRadius: 40,
+        borderWidth: 1,
+        borderColor: 'black',
+        paddingVertical: 1,
+        paddingHorizontal: 5,
+        marginHorizontal: 3
+    },
+    tagSelected: {
+        backgroundColor: 'lightgrey'
     }
 })

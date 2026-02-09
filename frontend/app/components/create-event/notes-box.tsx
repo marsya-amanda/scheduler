@@ -10,7 +10,7 @@ export default function NotesBox() {
     return (
         <View style={generalStyles.section}>
             <Text style={generalStyles.body}>Notes</Text>
-            <View style={notesBox.container}>
+            <View style={notesBox.mainContainer}>
                 <TextInput
                     onChangeText={setNotes}
                     value={notes}
