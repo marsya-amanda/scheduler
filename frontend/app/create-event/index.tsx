@@ -4,10 +4,11 @@ import { useRouter } from "expo-router";
 import CancelCreateBar from "../components/create-event/cancel-create-bar"
 import DurationPicker from "../components/create-event/duration-picker"
 import Checkbox from 'expo-checkbox'
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { generalStyles } from '../components/create-event/styles';
 import NotesBox from "../components/create-event/notes/notes-box";
 import DatePicker from "../components/create-event/date-picker";
+import TimePicker from "../components/create-event/time-picker";
+import DateTimePicker from "../components/create-event/date-time-picker";
 
 export default function CreateEventScreen() {
     const router = useRouter();
@@ -49,8 +50,8 @@ export default function CreateEventScreen() {
                 />
                 <Text style={generalStyles.body}>End Date</Text>
                 <DatePicker
-                    value={startDate}
-                    onChange={setStartDate}
+                    value={endDate}
+                    onChange={setEndDate}
                 />
                 <Pressable style={generalStyles.tickContainer} onPress={() => setSingleDayAvail(prev => !prev)}>
                     <Checkbox
@@ -66,17 +67,16 @@ export default function CreateEventScreen() {
             <View style={generalStyles.section}>
                 <Text style={generalStyles.body}>Available Time Range*</Text>
                 <View style={generalStyles.availRangeContainer}>
-                <DateTimePicker
-                    value={startRange}
-                    mode="time"
-                    onChange={(_, t) => t && setStartRange(t)}
-                ></DateTimePicker>
-                <Text style={{padding: 5}}>~</Text>
-                <DateTimePicker
-                    value={endRange}
-                    mode="time"
-                    onChange={(_, t) => t && setEndRange(t)}
-                ></DateTimePicker>
+                    <TimePicker
+                        value={startRange}
+                        onChange={setStartRange}
+                    />
+
+                    <Text style={{padding: 5}}>~</Text>
+                    <TimePicker
+                        value={endRange}
+                        onChange={setEndRange}
+                    />
                 </View>
                 <Pressable style={generalStyles.tickContainer} onPress={() => setAdminTimeBlock(prev => !prev)}>
                     <Checkbox
@@ -93,9 +93,9 @@ export default function CreateEventScreen() {
                 <Text style={generalStyles.body}>Response Deadline</Text>
                 <DateTimePicker
                     value={responseDeadline}
-                    mode="datetime"
-                    onChange={(_, d) => d && setResponseDeadline(d)}
-                ></DateTimePicker>
+                    onChange={setResponseDeadline}
+                />
+
                 <Pressable style={generalStyles.tickContainer} onPress={() => setSendReminder(prev => !prev)}>
                     <Checkbox
                         style={generalStyles.checkbox}
