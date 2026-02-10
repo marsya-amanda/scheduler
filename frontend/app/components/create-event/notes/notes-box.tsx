@@ -1,6 +1,6 @@
 import { View, Text, TextInput } from "react-native"
 import React, { useState } from 'react';
-import { generalStyles, notesBox } from "./styles"
+import { generalStyles, notesBox } from "../styles"
 import TagSelection from "./tag-selection"
 
 
