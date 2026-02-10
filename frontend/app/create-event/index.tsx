@@ -1,13 +1,13 @@
 import { Pressable, View, Text, TextInput } from "react-native";
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from "expo-router";
 import CancelCreateBar from "../components/create-event/cancel-create-bar"
 import DurationPicker from "../components/create-event/duration-picker"
 import Checkbox from 'expo-checkbox'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { generalStyles } from '../components/create-event/styles';
-import ViewOptions from "../components/view-options";
 import NotesBox from "../components/create-event/notes/notes-box";
+import DatePicker from "../components/create-event/date-picker";
 
 export default function CreateEventScreen() {
     const router = useRouter();
@@ -43,17 +43,15 @@ export default function CreateEventScreen() {
 
             <View style={generalStyles.section}>
                 <Text style={generalStyles.body}>Start Date*</Text>
-                <DateTimePicker
+                <DatePicker
                     value={startDate}
-                    mode="date"
-                    onChange={(_, d) => d && setStartDate(d)}
-                ></DateTimePicker>
+                    onChange={setStartDate}
+                />
                 <Text style={generalStyles.body}>End Date</Text>
-                <DateTimePicker
-                    value={endDate}
-                    mode="date"
-                    onChange={(_, d) => d && setEndDate(d)}
-                ></DateTimePicker>
+                <DatePicker
+                    value={startDate}
+                    onChange={setStartDate}
+                />
                 <Pressable style={generalStyles.tickContainer} onPress={() => setSingleDayAvail(prev => !prev)}>
                     <Checkbox
                         style={generalStyles.checkbox}
