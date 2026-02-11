@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useSharedValue } from 'react-native-reanimated';
+import {scheduleOnRN} from 'react-native-worklets';
 import { View, Dimensions } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { styles } from './styles';
@@ -8,8 +9,12 @@ import AnimatedTimeSelectBlock from './animated-time-select-block';
 export default function SelectionZoneV3() {
     const ids = Array.from({ length: 3}, (_, i) => Array.from({length: 32}, (_, j) => [i,j]));
     //const ids = Array.from({length: 96}, (_, i) => i);
-    const committed = useSharedValue<boolean[][]>(Array(3).fill(Array(32).fill(false)));
-    const temp = useSharedValue<Int8Array[]>(Array(3).fill(Array(32).fill(-1))); // -1 untouched, 0 unselected, 1 selected
+    //const committed = useSharedValue<boolean[][]>(Array(3).fill(Array(32).fill(false)));
+    //const temp = useSharedValue<Int8Array[]>(Array(3).fill(Array(32).fill(-1))); // -1 untouched, 0 unselected, 1 selected
+
+    const committed = useSharedValue<boolean[][]>(Array.from({ length: 3}, (_, i) => Array.from({ length: 32 }, (i, j) => false)));
+    const temp = useSharedValue<number[][]>(Array.from({ length: 3 }, (_, i) => Array.from({ length: 32 }, (i, j) => -1)));
+    const [reloadState, forceReload] = useState(0);
 
     const TIMESLOT_WIDTH = Dimensions.get('window').width * .24;
     const TIMESLOT_HEIGHT = 15;
@@ -23,7 +28,7 @@ export default function SelectionZoneV3() {
         prevCoords.value = [x_box, y_box];
     }
 
-    const newValue = (next: Int8Array[], x_box: number, y_box: number) => {
+    const newValue = (next: number[][], x_box: number, y_box: number) => {
         'worklet';
 
         if (next[x_box][y_box] === -1) {
@@ -42,35 +47,16 @@ export default function SelectionZoneV3() {
 
         if (prevCoords.value[0] === x_box && prevCoords.value[1] === y_box) return;
 
-        let next: Int8Array[] = [...temp.value];
+        let next: number[][] = [...temp.value];
 
-        if (x_box > prevCoords.value[0] && y_box > prevCoords.value[1]) {
-            // diagonal right-bottom
-            for (let i = prevCoords.value[0]; i <= x_box; i++) {
-                for (let j = prevCoords.value[1]; j <= y_box; j++) {
-                    next = newValue(next, x_box, y_box);
-                }
-            }
-        } else if (x_box > prevCoords.value[0] && y_box < prevCoords.value[1]) {
-            // diagonal right-top
-            for (let i = prevCoords.value[0]; i <= x_box; i++) {
-                for (let j = y_box; j <= prevCoords.value[1]; j++) {
-                    next = newValue(next, x_box, y_box);
-                }
-            }
-        } else if (x_box < prevCoords.value[0] && y_box > prevCoords.value[1]) {
-            // diagonal left-bottom
-            for (let i = x_box; i <= prevCoords.value[0]; i++) {
-                for (let j = prevCoords.value[1]; j <= y_box; j++) {
-                    next = newValue(next, x_box, y_box);
-                }
-            }
-        } else if (x_box < prevCoords.value[0] && y_box < prevCoords.value[1]) {
-            // diagonal left-top
-            for (let i = x_box; i <= prevCoords.value[0]; i++) {
-                for (let j = y_box; j <= prevCoords.value[1]; j++) {
-                    next = newValue(next, x_box, y_box);
-                }
+        const xMin = x_box < prevCoords.value[0] ? x_box : prevCoords.value[0];
+        const xMax = x_box === xMin ? prevCoords.value[0] : x_box;
+        const yMin = y_box < prevCoords.value[1] ? y_box : prevCoords.value[1];
+        const yMax = y_box === yMin ? prevCoords.value[1] : y_box;
+
+        for (let i = xMin; i <= xMax; i++) {
+            for (let j = yMin; j <= yMax; j++) {
+                next = newValue(next, i, j);
             }
         }
 
@@ -79,7 +65,19 @@ export default function SelectionZoneV3() {
 
     const clearTemp = () => {
         'worklet';
-        temp.value = Array(3).fill(Array(24).fill(-1));
+        //temp.value = Array(3).fill(Array(32).fill(-1));
+        //temp.value = Array.from({ length: 3 }, (_, i) => Array.from({ length: 32 }, (i, j) => -1)) // CRASHES THE FUCKING APP
+        const next: number[][] = [];
+
+        for (let i = 0; i < 3; i++) {
+            const row: number[] = []
+            for (let j = 0; j < 32; j++) {
+                row.push(-1);
+            }
+            next.push(row);
+        }
+
+        temp.value = next;
     }
 
     const applyTemp = (x: number, y: number) => {
@@ -90,7 +88,8 @@ export default function SelectionZoneV3() {
 
         if (prevCoords.value[0] === x_box && prevCoords.value[1] === y_box) return;
 
-        const next: Int8Array[] = newValue([...temp.value], x_box, y_box); // change initial
+        let next: number[][] = temp.value; // change initial
+        next = newValue(next, x_box, y_box);
 
         temp.value = next;
     }
@@ -98,10 +97,10 @@ export default function SelectionZoneV3() {
     const commit = () => {
         'worklet';
 
-        const next = [...committed.value];
+        const next = committed.value;
 
         for (let i = 0; i < next.length; i++) {
-            for (let j = 0; j < next.length; j++) {
+            for (let j = 0; j < next[i].length; j++) {
                 if (temp.value[i][j] !== -1) {
                     next[i][j] = temp.value[i][j] === 1 ? true : false;
                 }
@@ -110,14 +109,14 @@ export default function SelectionZoneV3() {
 
         committed.value = next;
 
-        console.log('committed: ', committed.value);
-        console.log('temp: ', temp.value);
         clearTemp();
         prevCoords.value = [-1, -1];
+        //scheduleOnRN(forceReload, reloadState + 1);
     }
 
     const pan = Gesture.Pan()
         .onBegin((e) => {
+            // cant do console.log on pan omg
             setPrevCoords(e.x, e.y);
             clearTemp();
             applyTemp(e.x, e.y);
@@ -129,13 +128,12 @@ export default function SelectionZoneV3() {
         })
         .onEnd((e) => {
             commit();
-        });
+s        });
 
     const tap = Gesture.Tap()
         .onBegin((e) => {
+            console.log('tap'); // runs even on pan?
             applyTemp(e.x, e.y);
-        })
-        .onEnd((e) => {
             commit();
         })
 

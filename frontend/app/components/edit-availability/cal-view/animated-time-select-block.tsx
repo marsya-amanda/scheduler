@@ -5,7 +5,7 @@ import { View, Dimensions } from 'react-native';
 type Prop = {
     id: number[],
     committed: SharedValue<boolean[][]>,
-    temp: SharedValue<Int8Array[]>
+    temp: SharedValue<number[][]>
 }
 
 export default function AnimatedTimeSelectBlock({id, committed, temp}: Prop) {
@@ -16,7 +16,7 @@ export default function AnimatedTimeSelectBlock({id, committed, temp}: Prop) {
         const selected = overlay !== -1 ? overlay === 1 : committed.value[id[0]][id[1]];
 
         return {
-            backgroundColor: selected ? '#000000' : 'transparent',
+            backgroundColor: selected ? '#5cc9ffff' : 'transparent',
             opacity: 0.5,
             borderWidth: 1
         };
