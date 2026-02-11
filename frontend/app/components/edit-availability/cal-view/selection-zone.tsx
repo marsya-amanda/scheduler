@@ -15,12 +15,43 @@ export default function SelectionZone() {
 
     const committed = useSharedValue<boolean[][]>(Array.from({ length: 3}, (_, i) => Array.from({ length: 32 }, (i, j) => false)));
     const temp = useSharedValue<number[][]>(Array.from({ length: 3 }, (_, i) => Array.from({ length: 32 }, (i, j) => -1)));
-    const [reloadState, forceReload] = useState(0);
 
     const TIMESLOT_WIDTH = Dimensions.get('window').width * .24;
     const TIMESLOT_HEIGHT = 15;
         
     const prevCoords = useSharedValue<number[]>([-1, -1]);
+
+    const clearTemp = () => {
+        'worklet';
+        //temp.value = Array.from({ length: 3 }, (_, i) => Array.from({ length: 32 }, (i, j) => -1)) // CRASHES THE FUCKING APP
+        const next: number[][] = [];
+
+        for (let i = 0; i < 3; i++) {
+            const row: number[] = []
+            for (let j = 0; j < 32; j++) {
+                row.push(-1);
+            }
+            next.push(row);
+        }
+
+        temp.value = next;
+    }
+
+    const copyCommitted = () => {
+        'worklet';
+
+        const next: number[][] = [];
+
+        for (let i = 0; i < 3; i++) {
+            const row: number[] = []
+            for (let j = 0; j < 24; j++) {
+                row.push(committed.value[i][j] ? 1 : -1);
+            }
+            next.push(row);
+        }
+
+        temp.value = next;
+    }
 
     const setPrevCoords = (x: number, y: number) => {
         'worklet';
@@ -64,23 +95,6 @@ export default function SelectionZone() {
         temp.value = next;
     }
 
-    const clearTemp = () => {
-        'worklet';
-        //temp.value = Array(3).fill(Array(32).fill(-1));
-        //temp.value = Array.from({ length: 3 }, (_, i) => Array.from({ length: 32 }, (i, j) => -1)) // CRASHES THE FUCKING APP
-        const next: number[][] = [];
-
-        for (let i = 0; i < 3; i++) {
-            const row: number[] = []
-            for (let j = 0; j < 32; j++) {
-                row.push(-1);
-            }
-            next.push(row);
-        }
-
-        temp.value = next;
-    }
-
     const applyTemp = (x: number, y: number) => {
         'worklet';
 
@@ -94,17 +108,22 @@ export default function SelectionZone() {
         next = newValue(next, x_box, y_box);
 
         temp.value = next;
+        // console.log(temp.value); // correct up to here
     }
 
     const commit = () => {
         'worklet';
 
         const next = committed.value;
+        const prev = temp.value;
+
+        console.log(prev);
 
         for (let i = 0; i < next.length; i++) {
             for (let j = 0; j < next[i].length; j++) {
-                if (temp.value[i][j] !== -1) {
-                    next[i][j] = temp.value[i][j] === 1 ? true : false;
+                if (prev[i][j] !== -1) {
+                    console.log('committing at [x, y, val]: ', i, j, prev[i][j]);
+                    next[i][j] = prev[i][j] === 1 ? true : false;
                 }
             }
         }
@@ -112,13 +131,15 @@ export default function SelectionZone() {
         committed.value = next;
 
         prevCoords.value = [-1, -1];
-        //scheduleOnRN(forceReload, reloadState + 1);
+        clearTemp();
+
+        // both correct! rendering wrong
+        //console.log(committed.value); 
+        // console.log(temp.value)
     }
 
     const pan = Gesture.Pan()
         .onBegin((e) => {
-            // cant do console.log on pan omg
-            clearTemp();
             applyTemp(e.x, e.y);
         })
         .minDistance(20)
@@ -133,8 +154,6 @@ export default function SelectionZone() {
 
     const tap = Gesture.Tap()
         .onBegin((e) => {
-            console.log(e); // runs even on pan?
-            clearTemp();
             applyTemp(e.x, e.y); 
         })
         .onEnd((e) => {
