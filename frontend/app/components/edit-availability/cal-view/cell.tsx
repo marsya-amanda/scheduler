@@ -19,7 +19,8 @@ export default function Cell({id, committed, temp}: Prop) {
             backgroundColor: selected ? '#5cc9ffff' : 'transparent',
             borderWidth: 0.5,
             borderColor: '#2d2d2dff',
-            borderStyle: 'dashed'
+            borderStyle: 'dashed',
+            zIndex: 1
         };
     })
     return (

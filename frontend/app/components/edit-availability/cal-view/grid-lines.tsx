@@ -146,7 +146,8 @@ const styles = StyleSheet.create({
         borderColor: '#000',
         borderWidth: 1.5,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        zIndex: 1
     },
     vertical: {
         width: Dimensions.get('window').width * .24,

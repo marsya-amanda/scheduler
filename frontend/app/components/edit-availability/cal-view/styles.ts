@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'flex-start',
         borderWidth: 0,
+        zIndex: 5
     },
     hourBar: {
         width: '13%',

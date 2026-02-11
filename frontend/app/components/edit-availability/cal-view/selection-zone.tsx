@@ -88,6 +88,7 @@ export default function SelectionZone() {
         const y_box = Math.floor(y / TIMESLOT_HEIGHT);
 
         if (prevCoords.value[0] === x_box && prevCoords.value[1] === y_box) return;
+        setPrevCoords(x, y);
 
         let next: number[][] = temp.value; // change initial
         next = newValue(next, x_box, y_box);
@@ -110,7 +111,6 @@ export default function SelectionZone() {
 
         committed.value = next;
 
-        clearTemp();
         prevCoords.value = [-1, -1];
         //scheduleOnRN(forceReload, reloadState + 1);
     }
@@ -118,10 +118,10 @@ export default function SelectionZone() {
     const pan = Gesture.Pan()
         .onBegin((e) => {
             // cant do console.log on pan omg
-            setPrevCoords(e.x, e.y);
             clearTemp();
             applyTemp(e.x, e.y);
         })
+        .minDistance(20)
         .onTouchesMove((e) => {
             const x = e.changedTouches[0].x;
             const y = e.changedTouches[0].y;
@@ -133,7 +133,7 @@ export default function SelectionZone() {
 
     const tap = Gesture.Tap()
         .onBegin((e) => {
-            console.log('tap'); // runs even on pan?
+            console.log(e); // runs even on pan?
             clearTemp();
             applyTemp(e.x, e.y); 
         })
@@ -141,7 +141,7 @@ export default function SelectionZone() {
             commit();
         })
 
-    const combined = Gesture.Exclusive(pan, tap);
+    const combined = Gesture.Race(pan, tap);
 
     return (
         <View>
