@@ -29,12 +29,15 @@ export const editAvailabilityStyles = StyleSheet.create({
         flexDirection: 'column',
         gap: 10,
         alignItems: 'center',
+        justifyContent: 'center',
         width: Dimensions.get('window').width - 20,
         overflowX: 'hidden'
     },
     dateBlockHeader: {
         display: 'flex',
         flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
         gap: 5,
     },
     dateHeaderText: {

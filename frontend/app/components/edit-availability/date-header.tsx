@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native';
-import Checkbox from 'expo-checkbox'
+import { AdvancedCheckbox } from 'react-native-advanced-checkbox';
 import { editAvailabilityStyles } from './styles';
 import React from 'react';
 
@@ -25,7 +25,10 @@ const DateHeader: React.FC<DateHeaderProps> = ({date, onPress, checked}) => {
     return(
         <View style={style.dateBlockContainer}>
             <View style={style.dateBlockHeader}>
-                <Checkbox onValueChange={onPress} />
+                <AdvancedCheckbox 
+                value={checked} 
+                onValueChange={onPress} 
+                accessibilityLabel="Add availability time slots for ${dayMonth}"/>
                 <Text style={[style.dateHeaderText, checked ? style.checked : style.unchecked]}>
                     {formattedDate}
                     </Text>

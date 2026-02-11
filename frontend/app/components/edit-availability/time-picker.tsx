@@ -9,8 +9,8 @@ type TimePickerProps = {
 
 export default function TimePicker({checked}:TimePickerProps) {
     const styles = editAvailabilityStyles;
-    const [startTime, setStartTime] = useState(new Date());
-    const [endTime, setEndTime] = useState(new Date(startTime));
+    const [startTime, setStartTime] = useState(new Date(2026, 11, 2, 9, 0, 0, 0));
+    const [endTime, setEndTime] = useState(new Date(2026, 11, 2, 17, 0, 0, 0));
     const [isVisibleStart, setVisibilityStart] = useState(false);
     const [isVisibleEnd, setVisibilityEnd] = useState(false);
 
@@ -73,6 +73,7 @@ export default function TimePicker({checked}:TimePickerProps) {
                     pickerContainerStyleIOS={{
                         alignItems: 'center',
                     }}
+                    minuteInterval={15}
                 />
             </Pressable>
             
