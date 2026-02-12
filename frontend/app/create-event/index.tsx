@@ -82,7 +82,7 @@ export default function CreateEventScreen() {
                     <Checkbox
                         style={generalStyles.checkbox}
                         value={isAdminTimeBlock}
-                        onValueChange={setAdminTimeBlock}   
+                        onValueChange={setAdminTimeBlock}
                         color={isAdminTimeBlock ? 'grey' : undefined}
                     ></Checkbox>  
                     <Text style={generalStyles.tickBoxText}>Block off time admin is unavailable</Text>                  

@@ -1,6 +1,8 @@
 import { Pressable, View, Text } from "react-native";
 import { useState } from 'react';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { formatTime } from "@/utils/formatting-helpers";
+import { generalStyles } from "./styles";
 
 export default function DateTimePicker({ value, onChange }: any) {
     const [isVisible, setVisibility] = useState(false);
@@ -16,11 +18,10 @@ export default function DateTimePicker({ value, onChange }: any) {
 
     return (
         <View>
-            <Pressable onPress={showPicker}>
+            <Pressable style={generalStyles.selectorBoxContainer} onPress={showPicker}>
                 <Text>
-                    {value.toDateString() + " "}
-                    {String(value.getHours()).padStart(2, '0')}:
-                    {String(value.getMinutes()).padStart(2, '0')}
+                    {value.toLocaleDateString() + " "}
+                    {formatTime(String(value.toTimeString().slice(0, 8)))}
                 </Text>
                 <DateTimePickerModal
                     isVisible={isVisible}

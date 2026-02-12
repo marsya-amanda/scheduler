@@ -1,6 +1,7 @@
 import { Pressable, View, Text } from "react-native";
 import { useState } from 'react';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { generalStyles } from "./styles";
 
 export default function DatePicker({ value, onChange }: any) {
     const [isVisible, setVisibility] = useState(false);
@@ -16,8 +17,8 @@ export default function DatePicker({ value, onChange }: any) {
 
     return (
         <View>
-            <Pressable onPress={showPicker}>
-                <Text>{value.toDateString()}</Text>
+            <Pressable style={generalStyles.selectorBoxContainer} onPress={showPicker}>
+                <Text >{value.toLocaleDateString()}</Text>
                 <DateTimePickerModal
                     isVisible={isVisible}
                     mode="date"
