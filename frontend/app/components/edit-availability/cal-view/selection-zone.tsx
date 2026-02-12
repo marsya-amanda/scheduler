@@ -5,14 +5,11 @@ import { View, Dimensions } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { styles } from './styles';
 import Cell from './cell';
-import GridLines from './grid-lines'
+import GridLines from './grid-lines';
+import Animated, {} from 'react-native-reanimated';
 
 export default function SelectionZone() {
     const ids = Array.from({ length: 3}, (_, i) => Array.from({length: 32}, (_, j) => [i,j]));
-    //const ids = Array.from({length: 96}, (_, i) => i);
-    //const committed = useSharedValue<boolean[][]>(Array(3).fill(Array(32).fill(false)));
-    //const temp = useSharedValue<Int8Array[]>(Array(3).fill(Array(32).fill(-1))); // -1 untouched, 0 unselected, 1 selected
-
     const committed = useSharedValue<boolean[][]>(Array.from({ length: 3}, (_, i) => Array.from({ length: 32 }, (i, j) => false)));
     const temp = useSharedValue<number[][]>(Array.from({ length: 3 }, (_, i) => Array.from({ length: 32 }, (i, j) => -1)));
 
@@ -37,26 +34,18 @@ export default function SelectionZone() {
         temp.value = next;
     }
 
-    const copyCommitted = () => {
+    const getBoxCoords = (x: number, y: number) => {
+        // prevent against index out of bounds
         'worklet';
 
-        const next: number[][] = [];
-
-        for (let i = 0; i < 3; i++) {
-            const row: number[] = []
-            for (let j = 0; j < 24; j++) {
-                row.push(committed.value[i][j] ? 1 : -1);
-            }
-            next.push(row);
-        }
-
-        temp.value = next;
+        const x_box = Math.max(0, Math.min(Math.floor(x / TIMESLOT_WIDTH), 2));
+        const y_box = Math.max(0, Math.min(Math.floor(y / TIMESLOT_HEIGHT), 31));
+        return {x_box, y_box};
     }
 
     const setPrevCoords = (x: number, y: number) => {
         'worklet';
-        const x_box = Math.floor(x / TIMESLOT_WIDTH);
-        const y_box = Math.floor(y / TIMESLOT_HEIGHT);
+        const {x_box, y_box} = getBoxCoords(x, y);
         prevCoords.value = [x_box, y_box];
     }
 
@@ -74,8 +63,7 @@ export default function SelectionZone() {
     const boxSelect = (x: number, y: number) => {
         'worklet';
 
-        const x_box = Math.floor(x / TIMESLOT_WIDTH);
-        const y_box = Math.floor(y / TIMESLOT_HEIGHT);
+        const {x_box, y_box} = getBoxCoords(x, y);
 
         if (prevCoords.value[0] === x_box && prevCoords.value[1] === y_box) return;
 
@@ -98,8 +86,9 @@ export default function SelectionZone() {
     const applyTemp = (x: number, y: number) => {
         'worklet';
 
-        const x_box = Math.floor(x / TIMESLOT_WIDTH);
-        const y_box = Math.floor(y / TIMESLOT_HEIGHT);
+        console.log('apply')
+
+        const {x_box, y_box} = getBoxCoords(x, y);
 
         if (prevCoords.value[0] === x_box && prevCoords.value[1] === y_box) return;
         setPrevCoords(x, y);
@@ -117,7 +106,7 @@ export default function SelectionZone() {
         const next = committed.value;
         const prev = temp.value;
 
-        console.log(prev);
+        //console.log(prev);
 
         for (let i = 0; i < next.length; i++) {
             for (let j = 0; j < next[i].length; j++) {
@@ -130,12 +119,13 @@ export default function SelectionZone() {
 
         committed.value = next;
 
-        prevCoords.value = [-1, -1];
+        setPrevCoords(-1, -1);
+
         clearTemp();
 
         // both correct! rendering wrong
-        //console.log(committed.value); 
-        // console.log(temp.value)
+        console.log(committed.value); 
+        console.log(temp.value)
     }
 
     const pan = Gesture.Pan()
@@ -160,24 +150,25 @@ export default function SelectionZone() {
             commit();
         })
 
-    const combined = Gesture.Race(pan, tap);
+    const combined = Gesture.Exclusive(pan, tap);
 
     return (
         <View>
             <GridLines />
             <GestureDetector gesture={combined} >
-            <View style={styles.selectionZone}>
-                {ids.map((row) => 
-                    row.map(([i, j]) => (
-                        <Cell
-                        key={`${i},${j}`}
-                        id={[i, j]}
-                        committed={committed}
-                        temp={temp}
-                        />
-                    ))
-                )}
-            </View>
+                <View style={styles.selectionZone}>
+                    {ids.map((row) => 
+                        row.map(([i, j]) => (
+                            <Cell
+                            key={`${i},${j}`}
+                            id={[i, j]}
+                            committed={committed}
+                            temp={temp}
+                            // anchor={anchor}
+                            />
+                        ))
+                    )}
+                </View>
         </GestureDetector>
         </View>
         
