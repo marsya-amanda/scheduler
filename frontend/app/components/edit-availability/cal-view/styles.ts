@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-between'
     },
     timeBlock: {
         width: Dimensions.get('window').width * .24,
@@ -72,13 +72,14 @@ export const styles = StyleSheet.create({
     },
     hourContainer: {
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         width: '100%',
-        height: 60
+        height: 60,
+        right: 10
     },
     hourText: {
-        fontSize: 14,
-        bottom: 8
+        fontSize: 16,
+        bottom: 8,
     },
     selected: {
         backgroundColor: 'lightblue',

@@ -9,7 +9,7 @@ export default function HourBar() {
         <View style={styles.hourBar}>
             <View style={styles.dateHeader}>
                 <Text style={styles.timezoneText}>
-                    GMT+7
+                    {/* GMT+7 */}
                 </Text>
             </View>
 
