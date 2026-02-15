@@ -8,7 +8,7 @@ export const editAvailabilityStyles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: 10,
+        gap: 2,
         overflowY: 'scroll'
     },
     content: {
@@ -21,8 +21,9 @@ export const editAvailabilityStyles = StyleSheet.create({
         height: Dimensions.get('window').height * .72,
     },
     title: {
-        fontSize: 30,
+        fontSize: 28,
         fontWeight: 'bold',
+        paddingBottom: 18
     },
     dateBlockContainer: {
         display: 'flex',
@@ -41,7 +42,8 @@ export const editAvailabilityStyles = StyleSheet.create({
         gap: 5,
     },
     dateHeaderText: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: 18
     },
     addButton: {
         display: 'flex',
@@ -65,15 +67,18 @@ export const editAvailabilityStyles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'row',
-        justifyContent: 'center',
-        gap: 10
+        justifyContent: 'space-evenly',
+        gap: 10,
+        width: Dimensions.get('window').width * .5,
+        paddingTop: 10
     },
     actionButton: {
         padding: 10,
         display: 'flex',
         alignItems: 'center',
         backgroundColor: 'lightgrey',
-        borderRadius: 10
+        borderRadius: 10,
+        borderWidth: 1
     },
     actionText: {
         fontWeight: 'bold'

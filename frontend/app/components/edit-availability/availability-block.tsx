@@ -38,7 +38,7 @@ export default function AvailabilityBlock({date}: AvailabilityBlockProps) {
                     <Pressable onPress={() => deleteTimePicker(picker.id)}>
                         <Ionicons
                             name='remove-circle-outline'
-                            size={18}
+                            size={20}
                             style={isAvailableToday ? editAvailabilityStyles.checked : editAvailabilityStyles.unchecked}
                         />
                     </Pressable>

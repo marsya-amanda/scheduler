@@ -21,7 +21,7 @@ const AddTimeButton: React.FC<AddTimeButtonProps> = ({onPress, checked}) => {
                     style={checked ? styles.checked : styles.unchecked}
                 />
 
-                <Text style={checked ? styles.checked : styles.unchecked}>
+                <Text style={[{fontSize: 16}, checked ? styles.checked : styles.unchecked]}>
                     Add time slot
                 </Text>
             </Pressable>

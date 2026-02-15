@@ -1,10 +1,12 @@
 import { View, Text, FlatList, ScrollView } from 'react-native';
 import  { editAvailabilityStyles } from '../components/edit-availability/styles';
 import ViewOptions from '../components/view-options';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AvailabilityBlock from '../components/edit-availability/availability-block';
 import ActionButtons from '../components/edit-availability/action-button'
 import Calendar from '../components/edit-availability/cal-view/calendar';
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { Event } from '../types/event'
 
 const DUMMY_DATES: Date[] = [
     new Date('2024-01-05'),
@@ -31,7 +33,16 @@ const DUMMY_DATES: Date[] = [
 
 
 export default function EditAvailabilityScreen( ) {
+    const router = useRouter();
+    const params = useLocalSearchParams();
+
+    const parsedMatrix: boolean[][] = params.timeslotMatrix
+        ? JSON.parse(params.timeslotMatrix as string)
+        : [];
+
     const [view, setView] = useState('calendar');
+    const [availabilityCal, setAvailabilityCal] = useState<boolean[][]>(parsedMatrix);
+    const [isConfirmed, onConfirm] = useState(false);
 
     const handleViewChange = (newView: string) => {
         setView(newView);
@@ -53,15 +64,15 @@ export default function EditAvailabilityScreen( ) {
                         keyExtractor={(item) => item.toISOString()}
                         renderItem={({item}) => <AvailabilityBlock date={item} />}
                     />
-                    <ActionButtons />
+                    <ActionButtons event={params} onConfirm={null} availabilityCal={availabilityCal}/>
                 </View>
             )
             :
             (
                 <View style={editAvailabilityStyles.content}>
-                    <Calendar />
+                    <Calendar isConfirmed={isConfirmed} confirmCal={setAvailabilityCal} currentCal={availabilityCal}/>
 
-                    <ActionButtons />
+                    <ActionButtons event={params} onConfirm={null} availabilityCal={availabilityCal}/>
                 </View>
             )
             }
