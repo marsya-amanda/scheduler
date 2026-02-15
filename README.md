@@ -2,7 +2,10 @@
 
 > Make getting people together effortless by providing an intuitive, inclusive, mobile-first scheduling tool that eliminates friction and reduces the time it takes groups to agree on plans.
 
-https://github.com/user-attachments/assets/24d92abb-edc3-45b6-bd9b-0849ee9f4749
+
+https://github.com/user-attachments/assets/d9e99c22-25aa-46c0-b763-395e9435a617
+
+
 
 ## Core Use Cases
 
