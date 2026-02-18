@@ -1,3 +1,5 @@
+import { Matrix } from './matrix';
+
 export type Event = {
     id: string;
     title: string;
@@ -5,6 +7,10 @@ export type Event = {
     dateCreated: string;
     startDate: string;
     endDate: string;
+    timeRangeStart: string;
+    timeRangeEnd: string;
+    duration: number;
+    responseDeadline: string;
     status: boolean;
     bestAvailability: string | null;
     participants: object[];
@@ -13,4 +19,8 @@ export type Event = {
     numAvailable: number;
     tag: string | null;
     link: string | null;
+    singleDayAvail: boolean;
+    blockAdminAvail: boolean;
+    sendReminder: boolean;
+    timeslotMatrix: Matrix
 }
