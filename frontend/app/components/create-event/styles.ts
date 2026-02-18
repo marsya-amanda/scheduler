@@ -46,6 +46,15 @@ export const generalStyles = StyleSheet.create({
     availRangeContainer: {
         flexDirection: 'row',
         alignItems: 'center'
+    },
+    selectorBoxContainer: {
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: 'black',
+        paddingHorizontal: 5,
+        height: 25,
+        justifyContent: 'center',
+        flexDirection: 'column'
     }
 })
 
@@ -93,6 +102,7 @@ export const notesBox = StyleSheet.create({
     mainContainer: {
         borderWidth: 1,
         borderColor: "black",
+        borderRadius: 5,
         width: 280,
         height: 70,
         justifyContent: "space-between",

@@ -1,96 +1,202 @@
-import TimeBlock from './time-block';
-import { View, Dimensions } from 'react-native';
-import { styles } from './styles';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import React, {useState} from 'react';
-import { scheduleOnRN } from 'react-native-worklets';
+import React, {useState, useEffect} from 'react';
 import { useSharedValue } from 'react-native-reanimated';
+import {scheduleOnRN} from 'react-native-worklets';
+import { View, Dimensions } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { styles } from './styles';
+import Cell from './cell';
+import GridLines from './grid-lines';
 
-// make this into memo
-export default function SelectionZone() {
-    type Bool4 = [boolean, boolean, boolean, boolean];
+type Props = {
+    isConfirmed: boolean,
+    setAvailabilityCal: (newCal: boolean[][]) => void,
+    currentCal: boolean[][]
+}
 
-    const items: { id: number }[] = Array.from({ length: 24 }, (_, i) => ({ id: i }));
-    const [selected, setSelected] = useState<boolean[]>(
-        () => Array(96).fill(false)
-    );
+export default function SelectionZone({isConfirmed, setAvailabilityCal, currentCal}: Props) {
+    const ids = Array.from({ length: 3}, (_, i) => Array.from({length: 32}, (_, j) => [i,j]));
+    const committed = useSharedValue<boolean[][]>(Array.from({ length: 3}, (_, i) => Array.from({ length: 32 }, (i, j) => false)));
+    const temp = useSharedValue<number[][]>(Array.from({ length: 3 }, (_, i) => Array.from({ length: 32 }, (i, j) => -1)));
+
+    // crashes - too many re-renders ?
+    // useEffect(() => {
+    //     if (currentCal && currentCal.length > 0) {
+    //         const next: boolean[][] = []
+    //         for (let i = 0; i < 3; i++) {
+    //             const row: boolean[] = [];
+    //             for (let j = 0; j < 32; j++) {
+    //                 row.push(currentCal[i][j]);
+    //             }
+    //             next.push(row);
+    //         }
+    //         committed.value = currentCal;
+    //     }
+    // }, [])
+
+    useEffect(() => {
+        if (isConfirmed) {
+            console.log('committed: ', [...committed.value]); // correct
+            setAvailabilityCal(committed.value.map(row => [...row])); // setter not working, even with test matrix
+            setAvailabilityCal([[true, true, true], [true, true, false]]) // doesn't work either
+        }
+    }, [isConfirmed]);
 
     const TIMESLOT_WIDTH = Dimensions.get('window').width * .24;
     const TIMESLOT_HEIGHT = 15;
-    const SELECTIONZONE_YHEIGHT: number = 480 / TIMESLOT_HEIGHT;
+        
+    const prevCoords = useSharedValue<number[]>([-1, -1]);
 
-    const getCoords = (x: number, y: number) => {
-        'worklet'; // signals to compiler to serialise and run this func on UI thread. MANDATORY
-        const x_box = Math.floor(x / TIMESLOT_WIDTH);
-        const y_box = Math.floor(y / TIMESLOT_HEIGHT);
+    const clearTemp = () => {
+        'worklet';
+        //temp.value = Array.from({ length: 3 }, (_, i) => Array.from({ length: 32 }, (i, j) => -1)) // CRASHES THE FUCKING APP
+        const next: number[][] = [];
+
+        for (let i = 0; i < 3; i++) {
+            const row: number[] = []
+            for (let j = 0; j < 32; j++) {
+                row.push(-1);
+            }
+            next.push(row);
+        }
+
+        temp.value = next;
+    }
+
+    const getBoxCoords = (x: number, y: number) => {
+        // prevent against index out of bounds
+        'worklet';
+
+        const x_box = Math.max(0, Math.min(Math.floor(x / TIMESLOT_WIDTH), 2));
+        const y_box = Math.max(0, Math.min(Math.floor(y / TIMESLOT_HEIGHT), 31));
+        // console.log(x_box, y_box)
         return {x_box, y_box};
     }
 
-    const getID = (x: number, y: number) => {
+    const setPrevCoords = (x: number, y: number) => {
         'worklet';
-        const {x_box, y_box} = getCoords(x, y);
-        return x_box * SELECTIONZONE_YHEIGHT + y_box;
+        const {x_box, y_box} = getBoxCoords(x, y);
+        prevCoords.value = [x_box, y_box];
     }
 
-    const [prevID, setPrevID] = useState(-1);
-    const toggleAtID = (index: number) => {
-        if (index === prevID) return;
-        setSelected(prev => {
-            const next = [...prev];
-            next[index] = !next[index];
-            setPrevID(index);
-            return next;
-        })
-    }
-
-    // method2
-    const prevID2 = useSharedValue(-1);
-    const selected2 = useSharedValue(Array(96).fill(false));
-    const toggleAtID2 = (index: number) => {
+    const newValue = (next: number[][], x_box: number, y_box: number) => {
         'worklet';
-        if(index === prevID2.value) return;
-        selected2.value[index] = !selected2.value[index];
-        prevID2.value = index;
+
+        if (next[x_box][y_box] === -1) {
+            next[x_box][y_box] = committed.value[x_box][y_box] ? 0 : 1; // force deselect if committed value is selected
+        } else {
+            next[x_box][y_box] = next[x_box][y_box] === 1 ? 0 : 1;
+        }
+        return next;
     }
 
-    const pan = Gesture.Pan().
-            onBegin((e) => {
-                if (e.numberOfPointers !== 1) return;
-                const id = getID(e.x, e.y);
+    const boxSelect = (x: number, y: number) => {
+        'worklet';
 
-                scheduleOnRN(toggleAtID, id);
-                //toggleAtID2(id);
-            }).
-            onTouchesMove((e) => {
-                if (e.numberOfTouches !== 1) return;
+        const {x_box, y_box} = getBoxCoords(x, y);
 
-                const id = getID(e.changedTouches[0].x, e.changedTouches[0].y);
-                scheduleOnRN(toggleAtID, id);
-                //toggleAtID2(id);
-            }).
-            onEnd((e) => {
-                scheduleOnRN(setPrevID, -1);
-                //prevID2.value = -1;
-            });
+        if (prevCoords.value[0] === x_box && prevCoords.value[1] === y_box) return;
 
-    const tap = Gesture.Tap().
-            onEnd((e, success) => {
-                if (success) {
-                    scheduleOnRN(setPrevID, -1);
-                    //prevID2.value = -1;
+        let next: number[][] = [...temp.value];
+
+        const xMin = x_box < prevCoords.value[0] ? x_box : prevCoords.value[0];
+        const xMax = x_box === xMin ? prevCoords.value[0] : x_box;
+        const yMin = y_box < prevCoords.value[1] ? y_box : prevCoords.value[1];
+        const yMax = y_box === yMin ? prevCoords.value[1] : y_box;
+
+        for (let i = xMin; i <= xMax; i++) {
+            for (let j = yMin; j <= yMax; j++) {
+                next = newValue(next, i, j);
+            }
+        }
+
+        temp.value = next;
+    }
+
+    const applyTemp = (x: number, y: number) => {
+        'worklet';
+        const {x_box, y_box} = getBoxCoords(x, y);
+
+        if (prevCoords.value[0] === x_box && prevCoords.value[1] === y_box) return;
+        setPrevCoords(x, y);
+
+        let next: number[][] = temp.value; // change initial
+        next = newValue(next, x_box, y_box);
+
+        temp.value = next;
+        // console.log(temp.value); // correct up to here
+    }
+
+    const commit = () => {
+        'worklet';
+
+        const next = committed.value;
+        const prev = temp.value;
+
+        //console.log(prev);
+
+        for (let i = 0; i < next.length; i++) {
+            for (let j = 0; j < next[i].length; j++) {
+                if (prev[i][j] !== -1) {
+                    // console.log('committing at [x, y, val]: ', i, j, prev[i][j]);
+                    next[i][j] = prev[i][j] === 1 ? true : false;
                 }
-            })
+            }
+        }
 
-    const combined = Gesture.Exclusive(tap, pan);
+        committed.value = next;
+
+        setPrevCoords(-1, -1);
+
+        clearTemp();
+
+        // both correct! rendering wrong
+        // console.log(committed.value); 
+        // console.log(temp.value)
+    }
+
+    const pan = Gesture.Pan()
+        .onBegin((e) => {
+            applyTemp(e.x, e.y);
+        })
+        .minDistance(20)
+        .onTouchesMove((e) => {
+            const x = e.changedTouches[0].x;
+            const y = e.changedTouches[0].y;
+            boxSelect(x, y);
+        })
+        .onEnd((e) => {
+            commit();
+        });
+
+    const tap = Gesture.Tap()
+        .onBegin((e) => {
+            applyTemp(e.x, e.y); 
+        })
+        .onEnd((e) => {
+            commit();
+        })
+
+    const combined = Gesture.Exclusive(pan, tap);
 
     return (
-        <GestureDetector gesture={combined} >
-            <View style={styles.selectionZone}>
-                {items.map(({id}) => (
-                    <TimeBlock key={id} blockID={id} ids={selected.slice(id * 4, id * 4 + 4) as Bool4}/>
-                ))}
-            </View>
+        <View>
+            <GridLines />
+            <GestureDetector gesture={combined} >
+                <View style={styles.selectionZone}>
+                    {ids.map((row) => 
+                        row.map(([i, j]) => (
+                            <Cell
+                            key={`${i},${j}`}
+                            id={[i, j]}
+                            committed={committed}
+                            temp={temp}
+                            // anchor={anchor}
+                            />
+                        ))
+                    )}
+                </View>
         </GestureDetector>
+        </View>
         
     );
 }

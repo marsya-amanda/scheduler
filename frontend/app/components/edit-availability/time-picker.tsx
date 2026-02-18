@@ -9,8 +9,8 @@ type TimePickerProps = {
 
 export default function TimePicker({checked}:TimePickerProps) {
     const styles = editAvailabilityStyles;
-    const [startTime, setStartTime] = useState(new Date());
-    const [endTime, setEndTime] = useState(new Date(startTime));
+    const [startTime, setStartTime] = useState(new Date(2026, 11, 2, 9, 0, 0, 0));
+    const [endTime, setEndTime] = useState(new Date(2026, 11, 2, 17, 0, 0, 0));
     const [isVisibleStart, setVisibilityStart] = useState(false);
     const [isVisibleEnd, setVisibilityEnd] = useState(false);
 
@@ -51,7 +51,7 @@ export default function TimePicker({checked}:TimePickerProps) {
 
     return (
         <View style={styles.timePickerContainer}>
-            <Text style={checked ? styles.checked : styles.unchecked}>
+            <Text style={[{fontSize: 16}, checked ? styles.checked : styles.unchecked]}>
                 Time available:
             </Text>
 
@@ -60,7 +60,7 @@ export default function TimePicker({checked}:TimePickerProps) {
             <Pressable style={[styles.timePickerButton, checked ? styles.checked : styles.unchecked]} 
                 onPress={showPickerStart}
             >
-                <Text style={checked ? styles.checked : styles.unchecked}>
+                <Text style={[{fontSize: 16}, checked ? styles.checked : styles.unchecked]}>
                     {String(startTime.getHours()).padStart(2, '0')}:
                     {String(startTime.getMinutes()).padStart(2, '0')}
                 </Text>
@@ -73,16 +73,17 @@ export default function TimePicker({checked}:TimePickerProps) {
                     pickerContainerStyleIOS={{
                         alignItems: 'center',
                     }}
+                    minuteInterval={15}
                 />
             </Pressable>
             
 
-            <Text style={checked ? styles.checked : styles.unchecked}>-</Text>
+            <Text style={[{fontSize: 16}, checked ? styles.checked : styles.unchecked]}>-</Text>
 
             <Pressable style={[styles.timePickerButton, checked ? styles.checked : styles.unchecked]}
                 onPress={showPickerEnd}
             >
-                <Text style={checked ? styles.checked : styles.unchecked}>
+                <Text style={[{fontSize: 16}, checked ? styles.checked : styles.unchecked]}>
                     {String(endTime.getHours()).padStart(2, '0')}:
                     {String(endTime.getMinutes()).padStart(2, '0')}
                 </Text>
@@ -96,6 +97,7 @@ export default function TimePicker({checked}:TimePickerProps) {
                     pickerContainerStyleIOS={{
                         alignItems: 'center',
                     }}
+                    minuteInterval={15}
                 />
             </Pressable>
 

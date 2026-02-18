@@ -1,5 +1,5 @@
 import { View, Text, Pressable } from "react-native"
-import { notesBox } from "./styles"
+import { notesBox } from "../styles"
 
 
 export default function TagSelection() {

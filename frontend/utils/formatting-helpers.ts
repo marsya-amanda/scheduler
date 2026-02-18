@@ -18,18 +18,19 @@ export function formatTime(str: string | string[]) {
     const split = str.split(":");
     const hr = (parseInt(split[0]) % 12) || 12;
     const ampm = parseInt(split[0]) >= 12 ? "pm" : "am";
-    return hr + ":" + split[1] + " " + ampm;
+    return hr + ":" + split[1] + ampm;
 }
 
-export function formateDateTime(str: string | string[]) {
+export function formatDateTime(str: string | string[]) {
     if(Array.isArray(str)) {
         str = str[0];
     }
-    const split = str.split("T");
-    const date = formatDate(split[0]);
-    const time = formatTime(split[1]);
-
-    return date + ", " + time;
+    return new Date(str).toLocaleString("en-GB", {
+        month: "short",
+        day: "numeric"
+    }) + " " + formatTime(str) + " (" + new Date(str).toLocaleDateString("en-GB",{
+        weekday: "short"
+    }) + ")";
 }
 
 export function formatDuration(str: string | string[]) {

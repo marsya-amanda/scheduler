@@ -28,17 +28,17 @@ export async function readEvent(id: number | string) {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
-  if (!res.ok) throw new Error('Failed to fetch event');
+  if (!res.ok) throw new Error('Failed to read event');
   return res.json();
 }
 
 export async function updateEvent(id: number | string, event: Partial<Event>) {
-  const res = await fetch(`${API_URL}/${id}/`, {
+  const res = await fetch(`${API_URL}${id}/`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(event),
   });
-  if (!res.ok) throw new Error('Failed to patch event');
+  if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
 
