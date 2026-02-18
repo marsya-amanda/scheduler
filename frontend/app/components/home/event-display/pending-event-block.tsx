@@ -18,6 +18,16 @@ export default function PendingEventBlock( { event, onPress } : PendingEventBloc
         onPress();
     }
 
+    const eventData = {
+        id: event.id,
+        title: event.title,
+        startDate: event.startDate,
+        endDate: event.endDate,
+        timeRangeStart: event.timeRangeStart,        
+        timeRangeEnd: event.timeRangeEnd,
+        timeslotMatrix: JSON.stringify(event.timeslotMatrix) // boolean and boolean[][] not accepted as params to push
+    }
+
     return (
             <View>
                 <Pressable style = {eventBlockStyles.container}>
@@ -63,7 +73,7 @@ export default function PendingEventBlock( { event, onPress } : PendingEventBloc
                                 />
                             </Pressable>
     
-                            <Pressable style={eventBlockStyles.actionsButton} onPress={() => router.push("/edit-availability")}>
+                            <Pressable style={eventBlockStyles.actionsButton} onPress={() => router.push({pathname: "/edit-availability", params: eventData})}>
                                 <Ionicons 
                                     name='pencil-outline' 
                                     size={16} 

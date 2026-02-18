@@ -6,7 +6,7 @@ import AvailabilityBlock from '../components/edit-availability/availability-bloc
 import ActionButtons from '../components/edit-availability/action-button'
 import Calendar from '../components/edit-availability/cal-view/calendar';
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Event } from '../types/event'
+import { Matrix } from '../types/matrix'
 
 const DUMMY_DATES: Date[] = [
     new Date('2024-01-05'),
@@ -64,15 +64,15 @@ export default function EditAvailabilityScreen( ) {
                         keyExtractor={(item) => item.toISOString()}
                         renderItem={({item}) => <AvailabilityBlock date={item} />}
                     />
-                    <ActionButtons event={params} onConfirm={null} availabilityCal={availabilityCal}/>
+                    <ActionButtons event={params} onConfirm={onConfirm} availabilityCal={availabilityCal}/>
                 </View>
             )
             :
             (
                 <View style={editAvailabilityStyles.content}>
-                    <Calendar isConfirmed={isConfirmed} confirmCal={setAvailabilityCal} currentCal={availabilityCal}/>
+                    <Calendar isConfirmed={isConfirmed} setAvailabilityCal={setAvailabilityCal} currentCal={availabilityCal}/>
 
-                    <ActionButtons event={params} onConfirm={null} availabilityCal={availabilityCal}/>
+                    <ActionButtons event={params} onConfirm={onConfirm} availabilityCal={availabilityCal}/>
                 </View>
             )
             }

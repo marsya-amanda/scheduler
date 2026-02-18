@@ -9,12 +9,12 @@ import React, {useState} from 'react';
 
 type Props = {
     isConfirmed: boolean,
-    confirmCal: (newCal: boolean[][]) => void,
-    currentCal: boolean[][] | null
+    setAvailabilityCal: (newCal: boolean[][]) => void,
+    currentCal: boolean[][]
 }
 
 // passed array per-page
-export default function Calendar({isConfirmed, confirmCal, currentCal}: Props) {
+export default function Calendar({isConfirmed, setAvailabilityCal, currentCal}: Props) {
 
     return (
         <GestureHandlerRootView style={{height: 530, }}>
@@ -24,7 +24,7 @@ export default function Calendar({isConfirmed, confirmCal, currentCal}: Props) {
                     <View style={{display: 'flex', flexDirection:'column'}}>
                         <DayHeader />
 
-                        <SelectionZone isConfirmed={isConfirmed} confirmCal={confirmCal} currentCal={currentCal}/>
+                        <SelectionZone isConfirmed={isConfirmed} setAvailabilityCal={setAvailabilityCal} currentCal={currentCal}/>
                     </View>
                                             
                     <NextBar />

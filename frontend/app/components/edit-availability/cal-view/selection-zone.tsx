@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useSharedValue } from 'react-native-reanimated';
 import {scheduleOnRN} from 'react-native-worklets';
 import { View, Dimensions } from 'react-native';
@@ -6,12 +6,40 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { styles } from './styles';
 import Cell from './cell';
 import GridLines from './grid-lines';
-import Animated, {} from 'react-native-reanimated';
 
-export default function SelectionZone() {
+type Props = {
+    isConfirmed: boolean,
+    setAvailabilityCal: (newCal: boolean[][]) => void,
+    currentCal: boolean[][]
+}
+
+export default function SelectionZone({isConfirmed, setAvailabilityCal, currentCal}: Props) {
     const ids = Array.from({ length: 3}, (_, i) => Array.from({length: 32}, (_, j) => [i,j]));
     const committed = useSharedValue<boolean[][]>(Array.from({ length: 3}, (_, i) => Array.from({ length: 32 }, (i, j) => false)));
     const temp = useSharedValue<number[][]>(Array.from({ length: 3 }, (_, i) => Array.from({ length: 32 }, (i, j) => -1)));
+
+    // crashes - too many re-renders ?
+    // useEffect(() => {
+    //     if (currentCal && currentCal.length > 0) {
+    //         const next: boolean[][] = []
+    //         for (let i = 0; i < 3; i++) {
+    //             const row: boolean[] = [];
+    //             for (let j = 0; j < 32; j++) {
+    //                 row.push(currentCal[i][j]);
+    //             }
+    //             next.push(row);
+    //         }
+    //         committed.value = currentCal;
+    //     }
+    // }, [])
+
+    useEffect(() => {
+        if (isConfirmed) {
+            console.log('committed: ', [...committed.value]); // correct
+            setAvailabilityCal(committed.value.map(row => [...row])); // setter not working, even with test matrix
+            setAvailabilityCal([[true, true, true], [true, true, false]]) // doesn't work either
+        }
+    }, [isConfirmed]);
 
     const TIMESLOT_WIDTH = Dimensions.get('window').width * .24;
     const TIMESLOT_HEIGHT = 15;
@@ -40,6 +68,7 @@ export default function SelectionZone() {
 
         const x_box = Math.max(0, Math.min(Math.floor(x / TIMESLOT_WIDTH), 2));
         const y_box = Math.max(0, Math.min(Math.floor(y / TIMESLOT_HEIGHT), 31));
+        // console.log(x_box, y_box)
         return {x_box, y_box};
     }
 
@@ -85,9 +114,6 @@ export default function SelectionZone() {
 
     const applyTemp = (x: number, y: number) => {
         'worklet';
-
-        console.log('apply')
-
         const {x_box, y_box} = getBoxCoords(x, y);
 
         if (prevCoords.value[0] === x_box && prevCoords.value[1] === y_box) return;
@@ -111,7 +137,7 @@ export default function SelectionZone() {
         for (let i = 0; i < next.length; i++) {
             for (let j = 0; j < next[i].length; j++) {
                 if (prev[i][j] !== -1) {
-                    console.log('committing at [x, y, val]: ', i, j, prev[i][j]);
+                    // console.log('committing at [x, y, val]: ', i, j, prev[i][j]);
                     next[i][j] = prev[i][j] === 1 ? true : false;
                 }
             }
@@ -124,8 +150,8 @@ export default function SelectionZone() {
         clearTemp();
 
         // both correct! rendering wrong
-        console.log(committed.value); 
-        console.log(temp.value)
+        // console.log(committed.value); 
+        // console.log(temp.value)
     }
 
     const pan = Gesture.Pan()

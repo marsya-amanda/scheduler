@@ -19,6 +19,16 @@ export default function FinalisedEventBlock( { event, onPress } : FinalisedEvent
         onPress();
     }
 
+    const eventData = {
+        id: event.id,
+        title: event.title,
+        startDate: event.startDate,
+        endDate: event.endDate,
+        timeRangeStart: event.timeRangeStart,        
+        timeRangeEnd: event.timeRangeEnd,
+        timeslotMatrix: JSON.stringify(event.timeslotMatrix)
+    }
+
     return (
         <View>
             <Pressable style = {eventBlockStyles.container}>
@@ -64,7 +74,7 @@ export default function FinalisedEventBlock( { event, onPress } : FinalisedEvent
                             />
                         </Pressable>
 
-                        <Pressable style={eventBlockStyles.actionsButton} onPress={() => router.push('/edit-availability')}>
+                        <Pressable style={eventBlockStyles.actionsButton} onPress={() => router.push({pathname: "/edit-availability", params: eventData})}>
                             <Ionicons 
                                 name='pencil-outline' 
                                 size={16} 
