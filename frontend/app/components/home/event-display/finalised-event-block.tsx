@@ -19,19 +19,9 @@ export default function FinalisedEventBlock( { event, onPress } : FinalisedEvent
         onPress();
     }
 
-    const eventData = {
-        id: event.id,
-        title: event.title,
-        startDate: event.startDate,
-        endDate: event.endDate,
-        timeRangeStart: event.timeRangeStart,        
-        timeRangeEnd: event.timeRangeEnd,
-        timeslotMatrix: JSON.stringify(event.timeslotMatrix)
-    }
-
     return (
         <View>
-            <Pressable style = {eventBlockStyles.container}>
+            <Pressable style = {eventBlockStyles.container} onPress={() => router.push({pathname: "/event-overview"})}>
                 <View style={eventBlockStyles.eventTitle}>
                     <Text style={eventBlockStyles.titleText}>{ event.title }</Text>
                     <Pressable style={{}}>
@@ -74,7 +64,7 @@ export default function FinalisedEventBlock( { event, onPress } : FinalisedEvent
                             />
                         </Pressable>
 
-                        <Pressable style={eventBlockStyles.actionsButton} onPress={() => router.push({pathname: "/edit-availability", params: eventData})}>
+                        <Pressable style={eventBlockStyles.actionsButton} onPress={() => router.push('/edit-availability')}>
                             <Ionicons 
                                 name='pencil-outline' 
                                 size={16} 
