@@ -30,7 +30,7 @@ export default function PendingEventBlock( { event, onPress } : PendingEventBloc
 
     return (
             <View>
-                <Pressable style = {eventBlockStyles.container} onPress={() => router.push({pathname: "/event-overview", params: eventData})}>
+                <Pressable style = {eventBlockStyles.container} onPress={() => router.push({pathname: "/event-overview/pending-overview", params: eventData})}>
                     <View style={eventBlockStyles.eventTitle}>
                         <Text style={eventBlockStyles.titleText}>{ event.title }</Text>
                         <Pressable style={{}}>

@@ -21,7 +21,7 @@ export default function FinalisedEventBlock( { event, onPress } : FinalisedEvent
 
     return (
         <View>
-            <Pressable style = {eventBlockStyles.container} onPress={() => router.push({pathname: "/event-overview"})}>
+            <Pressable style = {eventBlockStyles.container} onPress={() => router.push({pathname: "/event-overview/finalised-overview"})}>
                 <View style={eventBlockStyles.eventTitle}>
                     <Text style={eventBlockStyles.titleText}>{ event.title }</Text>
                     <Pressable style={{}}>
